@@ -1,0 +1,33 @@
+create table sample_txns(
+PROCESS_ID       NOT NULL VARCHAR2(21) ,
+TERMFIID                  VARCHAR2(4)  ,
+TERMID                    VARCHAR2(16) ,
+CARDFIID                  VARCHAR2(4)  ,
+CARDLN                    VARCHAR2(4)  ,
+CARD                      VARCHAR2(19) ,
+TRANCODE                  VARCHAR2(2)  ,
+MESSAGETYPE               VARCHAR2(4)  ,
+RESPCODE                  VARCHAR2(3)  ,
+FROMACCT                  VARCHAR2(19) ,
+SEQNUMBER                 VARCHAR2(12) ,
+AMOUNT1                   VARCHAR2(20) ,
+AMOUNT2                   VARCHAR2(20) ,
+POSTDATE                  DATE         ,
+TRANDATE                  DATE         ,
+TRANTIME                  VARCHAR2(8)  ,
+TERMCOUNTRY               VARCHAR2(2)  ,
+AUTHCURRENCYCODE          VARCHAR2(3)  ,
+ACQINSTITUTIONID          VARCHAR2(11) ,
+PROCESS_FLAG              CHAR(1)      ,
+THREAD_NUM                NUMBER(3)    ,
+TXN_TYPE                  VARCHAR2(15) 
+);
+
+
+create table sample_contact_info(
+ISD_CODE                VARCHAR2(4)  ,
+MOB_NUMBER              VARCHAR2(12) ,
+LANG_CODE               CHAR(2)      ,
+EMAIL_ID                VARCHAR2(60) ,
+ACCOUNT_NUMBER NOT NULL VARCHAR2(17) 
+);
