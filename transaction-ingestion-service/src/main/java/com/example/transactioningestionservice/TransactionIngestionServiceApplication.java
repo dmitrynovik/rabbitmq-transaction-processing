@@ -10,7 +10,6 @@ public class TransactionIngestionServiceApplication {
 
 	public static void main(String[] args) {
 		Library lib = new Library();
-		//lib.
 		SpringApplication.run(TransactionIngestionServiceApplication.class, args);
 	}
 
