@@ -5,4 +5,5 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'transaction-ingestion-service'
+rootProject.name = 'rabbitmq-transaction-processing'
+include 'transaction-ingestion-service', 'common'
