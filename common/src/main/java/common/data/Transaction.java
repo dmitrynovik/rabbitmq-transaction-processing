@@ -46,7 +46,7 @@ public class Transaction {
 
     public int authCurrencyCode;
 
-    public String acquisitionId;
+    public String acqInstitutionId;
 
     public String processFlag;
 
