@@ -1,12 +1,12 @@
 package common.data;
 
-import java.time.LocalDate;
-
 public class Transaction {
     
     public String processId;
 
     public String termFiId;
+
+    public String termId1;
 
     public String termId2;
 
@@ -28,7 +28,7 @@ public class Transaction {
 
     public String fromAcct2;
 
-    public String seqNumber;
+    public String seqNumber1;
 
     public String seqNumber2;
 
@@ -36,9 +36,9 @@ public class Transaction {
 
     public int amount2;
 
-    public LocalDate postDate;
+    public String postDate;
 
-    public LocalDate tranDate;
+    public String tranDate;
 
     public int tranTime;
 
@@ -51,4 +51,6 @@ public class Transaction {
     public String processFlag;
 
     public String txnType;
+
+    public String threadNum;
 }
