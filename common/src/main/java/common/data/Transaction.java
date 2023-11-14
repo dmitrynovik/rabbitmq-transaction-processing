@@ -1,6 +1,8 @@
 package common.data;
 
-public class Transaction {
+import java.io.Serializable;
+
+public class Transaction implements Serializable {
     
     public String processId;
 
