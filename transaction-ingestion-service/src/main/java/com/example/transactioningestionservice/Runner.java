@@ -21,7 +21,7 @@ public class Runner implements CommandLineRunner {
   @Override
   public void run(String... args) throws InterruptedException {
     try {
-      System.out.println("RABBIT QUEUE: " + this.rabbitTemplate.getDefaultReceiveQueue());
+      System.out.println("RABBIT XCHANGE: " + this.rabbitTemplate.getExchange());
 
       //   int customers = new CustomerService().getAll().size();
       //   System.out.println("CUSTOMERS: " + customers);
