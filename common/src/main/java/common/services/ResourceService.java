@@ -1,6 +1,5 @@
-package com.example.transactioningestionservice;
+package common.services;
 
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -13,18 +12,15 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ResourceService<T> {
+public abstract class ResourceService<T> {
 
     // TODO: classId replacement
-    Stream<T> toStream(String path, Class classId) throws IOException {
+    protected Stream<T> toStream(String path, Class classId) throws IOException {
         InputStream inputStream = getClass().getResourceAsStream(path);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
+        ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
         JsonParser jsonParser = objectMapper.getFactory().createParser(inputStream);
 
         if (jsonParser.nextToken() != JsonToken.START_ARRAY) {
-            System.out.println("TEXT:");
-            System.out.println(jsonParser.getText());
             throw new IllegalStateException("Not an array");
         }
         
