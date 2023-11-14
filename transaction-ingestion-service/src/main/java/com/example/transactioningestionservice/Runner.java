@@ -30,7 +30,7 @@ public class Runner implements CommandLineRunner {
       for (int i = 0; i < tx.size(); ++i) {
         System.out.println("Sending customer: " + tx.get(i).seqNumber1);
         this.rabbitTemplate.convertAndSend(TransactionIngestionServiceApplication.exchangeName, 
-            "", 
+            String.valueOf((i % 4) + 1),
             tx.get(i));
 
         Thread.sleep(1000);

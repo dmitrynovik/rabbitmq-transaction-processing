@@ -22,6 +22,11 @@ public class TransactionIngestionServiceApplication {
 
 	static final String exchangeName = "txExchange";
 	static final String queuePrefix = "txQueue_";
+	static final Map<String, Object> queueArgs = new HashMap<>();
+
+	public TransactionIngestionServiceApplication() {
+		queueArgs.put("x-queue-type", "quorum");
+	}
 
 	@Bean
 	CustomExchange exchange() {
@@ -39,6 +44,50 @@ public class TransactionIngestionServiceApplication {
 			queues[i] = new Queue(queuePrefix + i, true, false, true, args);
 		}
 		return queues;
+	}
+
+	@Bean Queue queue1() {
+		return new Queue(queuePrefix + 1, true, false, false, queueArgs);
+	}
+
+	@Bean Binding binding1(Queue queue1, CustomExchange exchange) {
+		return BindingBuilder.bind(queue1)
+				.to(exchange)
+				.with("1")
+				.noargs();
+	}
+
+	@Bean Binding binding2(Queue queue2, CustomExchange exchange) {
+		return BindingBuilder.bind(queue2)
+				.to(exchange)
+				.with("2")
+				.noargs();
+	}
+
+	@Bean Binding binding3(Queue queue3, CustomExchange exchange) {
+		return BindingBuilder.bind(queue3)
+				.to(exchange)
+				.with("3")
+				.noargs();
+	}
+
+	@Bean Binding binding4(Queue queue4, CustomExchange exchange) {
+		return BindingBuilder.bind(queue4)
+				.to(exchange)
+				.with("4")
+				.noargs();
+	}
+
+	@Bean Queue queue2() {
+		return new Queue(queuePrefix + 2, true, false, false, queueArgs);
+	}
+
+	@Bean Queue queue3() {
+		return new Queue(queuePrefix + 3, true, false, false, queueArgs);
+	}
+
+	@Bean Queue queue4() {
+		return new Queue(queuePrefix + 4, true, false, false, queueArgs);
 	}
 
 	@Bean
@@ -74,6 +123,7 @@ public class TransactionIngestionServiceApplication {
 	}
 
 	public static void main(String[] args) {
+		System.setProperty("spring.amqp.deserialization.trust.all","true");
 		SpringApplication.run(TransactionIngestionServiceApplication.class, args);
 	}
 
