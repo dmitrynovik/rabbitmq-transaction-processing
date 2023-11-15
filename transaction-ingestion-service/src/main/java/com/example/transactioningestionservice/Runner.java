@@ -1,5 +1,7 @@
 package com.example.transactioningestionservice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +27,8 @@ public class Runner implements CommandLineRunner {
   static final Map<String, Object> quorumQueueArgs = Map.of("x-queue-type", "quorum");
   private RabbitTemplate rabbitTemplate;
   private int queues = 4;
-
+  Logger logger = LoggerFactory.getLogger(Runner.class);
+  
   public Runner(RabbitTemplate rabbitTemplate) throws IOException, TimeoutException {
     this.rabbitTemplate = rabbitTemplate;
     createRabbitMQTopology();
@@ -39,14 +42,14 @@ public class Runner implements CommandLineRunner {
     try {
       // TODO: properties
       queues = 4;//Integer.parseInt( System.getProperty("rabbitmq.queues") );
-      
+
       List<String> queueNames = new ArrayList<>(queues);
       for (int i = 1; i <= queues; ++i)
         queueNames.add(queuePrefix + i);
 
       // Declare RabbitMQ queues of type quorum:
       for (String q : queueNames) {
-        System.out.println("DECLARING QUEUE " + q);
+        logger.info("Declaring RabbitMQ queue: " + q);
         ch.queueDeclare(q, true, false, false, quorumQueueArgs);
         ch.queuePurge(q);
       }
