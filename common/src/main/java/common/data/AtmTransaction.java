@@ -2,7 +2,7 @@ package common.data;
 
 import java.io.Serializable;
 
-public class Transaction implements Serializable {
+public class AtmTransaction implements Serializable {
     
     public String processId;
 

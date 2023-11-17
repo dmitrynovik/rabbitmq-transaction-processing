@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.rabbitmq.client.Channel;
 
-import common.data.Transaction;
+import common.data.AtmTransaction;
 
 @Component
 public class Runner implements CommandLineRunner {
@@ -69,7 +69,7 @@ public class Runner implements CommandLineRunner {
   @Override
   public void run(String... args) throws InterruptedException {
     try {
-      List<Transaction> tx = new TransactionService().getAll();
+      List<AtmTransaction> tx = new TransactionService().getAll();
 
       for (int i = 0; i < tx.size(); ++i) {
         System.out.println("Sending transaction: " + tx.get(i).seqNumber1);
