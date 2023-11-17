@@ -1,5 +1,12 @@
 package com.example.transactioningestionservice;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeoutException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Queue;
@@ -12,13 +19,6 @@ import com.rabbitmq.client.Channel;
 
 import common.data.Transaction;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeoutException;
-
 @Component
 public class Runner implements CommandLineRunner {
 
@@ -26,11 +26,12 @@ public class Runner implements CommandLineRunner {
   static final String queuePrefix = "txQueue_";  
   static final Map<String, Object> quorumQueueArgs = Map.of("x-queue-type", "quorum");
   private RabbitTemplate rabbitTemplate;
-  private int queues = 4;
   Logger logger = LoggerFactory.getLogger(Runner.class);
+  private int queues;
   
-  public Runner(RabbitTemplate rabbitTemplate) throws IOException, TimeoutException {
+  public Runner(@Value("${rabbitmq.queues}") int queues, RabbitTemplate rabbitTemplate) throws IOException, TimeoutException {
     this.rabbitTemplate = rabbitTemplate;
+    this.queues = queues;
     createRabbitMQTopology();
   }
 
@@ -40,8 +41,7 @@ public class Runner implements CommandLineRunner {
       .createChannel(false);
 
     try {
-      // TODO: properties
-      queues = 4;//Integer.parseInt( System.getProperty("rabbitmq.queues") );
+      logger.info("Number of queues to declare: " + queues);
 
       List<String> queueNames = new ArrayList<>(queues);
       for (int i = 1; i <= queues; ++i)
