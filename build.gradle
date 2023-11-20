@@ -5,6 +5,13 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven {
+        credentials {
+            username "$gemfireRepoUsername"
+            password "$gemfireRepoPassword"
+        }
+        url = uri("https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire")
+    }
 }
 
 

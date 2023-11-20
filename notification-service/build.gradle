@@ -5,24 +5,11 @@ plugins {
 	id 'myproject.java-conventions'
 }
 
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
 java {
 	sourceCompatibility = '17'
-}
-
-repositories {
-	mavenCentral()
-	maven { url 'https://repo.spring.io/milestone' }
-	maven { url 'https://repo.spring.io/snapshot' }
-}
-
-ext {
-	set('springCloudVersion', "2023.0.0-SNAPSHOT")
-}
-
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
 }
 
 configurations {
@@ -31,25 +18,25 @@ configurations {
 	}
 }
 
+repositories {
+	mavenCentral()
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-	implementation 'org.springframework.cloud:spring-cloud-stream'
-	implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
-
 	implementation project(':common')
-
-//	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-//	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.amqp:spring-rabbit-test'
-	testImplementation 'org.springframework.cloud:spring-cloud-stream-test-binder'
 }
 
+tasks.named('bootBuildImage') {
+	builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
 
-
-test {
+tasks.named('test') {
 	useJUnitPlatform()
 }

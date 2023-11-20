@@ -13,3 +13,4 @@ plugins {
 rootProject.name = 'rabbitmq-transaction-processing'
 include 'common'
 include 'transaction-ingestion-service'
+include 'notification-service'
