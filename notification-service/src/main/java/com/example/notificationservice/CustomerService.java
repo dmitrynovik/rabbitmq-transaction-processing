@@ -1,4 +1,4 @@
-package com.example.transactioningestionservice;
+package com.example.notificationservice;
 
 import java.io.IOException;
 import java.util.List;
