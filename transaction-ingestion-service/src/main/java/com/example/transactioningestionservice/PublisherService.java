@@ -8,6 +8,7 @@ import java.util.concurrent.TimeoutException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -20,59 +21,39 @@ import common.data.AtmTransaction;
 @Component
 public class PublisherService implements CommandLineRunner {
 
-  static final String queuePrefix = "txQueue_";
   static final String exchangeName = common.Configuration.TransactionsExchange.getName();
-  static final Map<String, Object> quorumQueueArgs = Map.of("x-queue-type", "quorum");
+  
   private RabbitTemplate rabbitTemplate;
   Logger logger = LoggerFactory.getLogger(PublisherService.class);
-  private int queues;
   private int throughput;
   private boolean running;
+  private int queues;
 
-  public void run() { running = true;}
+  public void run() { running = true;}int i = 0;
 
   public void stop() { running = false; }
   
-  public PublisherService(@Value("${rabbitmq.queues:4}") int queues, 
-    @Value("${rabbitmq.throughput:1}") int throughput, 
+  public PublisherService(@Value("${rabbitmq.throughput:1}") int throughput, @Value("${rabbitmq.queues:4}") int queues,
     RabbitTemplate rabbitTemplate) throws IOException, TimeoutException {
 
+    this.queues = queues;
     this.throughput = throughput;
     this.rabbitTemplate = rabbitTemplate;
-    this.queues = queues;
     declareExchange();
   }
 
   private void declareExchange() throws IOException, TimeoutException {
-    Channel ch = rabbitTemplate.getConnectionFactory()
-      .createConnection()
-      .createChannel(false);
+    Connection conn = rabbitTemplate.getConnectionFactory().createConnection();
+		Channel ch = conn.createChannel(false);
 
     try {
-      logger.info("Number of queues to declare: " + queues);
-
-      List<String> queueNames = new ArrayList<>(queues);
-      for (int i = 1; i <= queues; ++i)
-        queueNames.add(queuePrefix + i);
-
-      // Declare RabbitMQ queues of type quorum:
-      for (String q : queueNames) {
-        logger.info("Declaring RabbitMQ queue: " + q);
-        ch.queueDeclare(q, true, false, false, quorumQueueArgs);
-        //ch.queuePurge(q);
-      }
-
       // Declare RabbitMQ exchange of type consistent hash to load balance the workload:
       ch.exchangeDeclare(exchangeName, "x-consistent-hash", true, false, null);
-
-      int i = 0;
-      for (String q : queueNames) {
-        ch.queueBind(q, exchangeName, String.valueOf(++i));
-      }
-
       this.run();
+
     } finally {
       ch.close();
+      conn.close();
     }
   }
 
