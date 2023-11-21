@@ -1,4 +1,4 @@
-package com.example.transactioningestionservice;
+package com.example.notificationservice;
 
 import java.util.concurrent.CountDownLatch;
 import org.springframework.stereotype.Component;
@@ -6,12 +6,18 @@ import org.springframework.stereotype.Component;
 import common.data.AtmTransaction;
 
 @Component
-public class Receiver {
+public class ConsumerService {
+	Logger logger = LoggerFactory.getLogger(Receiver.class);
+
+	public ConsumerService() {
+		createAndBindQueues();
+	}
+
     private CountDownLatch latch = new CountDownLatch(1);
 
 	public void receiveMessage(AtmTransaction message) {
-		System.out.println("Received <" + message.seqNumber1 + ">");
-		latch.countDown();
+		logger.info("Received <" + message.processId + ">");
+		//latch.countDown();
 	}
 
 	public CountDownLatch getLatch() {

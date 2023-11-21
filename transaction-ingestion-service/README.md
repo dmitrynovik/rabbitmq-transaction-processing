@@ -18,3 +18,14 @@ kubectl -n rabbitmq-system exec -it tanzu-rabbitmq-server-0 -- rabbitmq-plugins 
 kubectl -n rabbitmq-system exec -it tanzu-rabbitmq-server-1 -- rabbitmq-plugins enable rabbitmq_consistent_hash_exchange
 kubectl -n rabbitmq-system exec -it tanzu-rabbitmq-server-2 -- rabbitmq-plugins enable rabbitmq_consistent_hash_exchange
 ```
+
+### Running locally
+From the CLI or the IDE, do:
+#### Transaction Ingestion Service
+```
+./gradlew :transaction-ingestion-service:bootRun
+```
+#### Notification Service
+```
+./gradlew :notification-service:bootRun
+```
