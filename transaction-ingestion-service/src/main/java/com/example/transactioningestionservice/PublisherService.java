@@ -63,21 +63,24 @@ public class PublisherService implements CommandLineRunner {
       // pull a batch of transactions (poC: data embedded as a resource, production: Database)
       List<AtmTransaction> atmTransactions = new TransactionService().getAll();
 
+      int i = 0;
       while (running) {
-
         //
-        // Publish "throughput" atmTransactions per second:
+        // Publish a batch of the "throughput" size of the atmTransactions per second:
         // 
-        for (int i = 0; i < throughput; ++i) {
-        logger.info("Sending transaction: " + atmTransactions.get(i % atmTransactions.size()).processId);
+        for (int j = i; j < i + throughput; ++j) {
+          AtmTransaction atmTransaction = atmTransactions.get(j % atmTransactions.size());
+          String routingKey = atmTransaction.processId; // String.valueOf((j % queues) + 1);
+          logger.info("(" + j + ") Sending transaction: " + atmTransaction.processId + ", routingKey = " + routingKey);
 
-        this.rabbitTemplate.convertAndSend(exchangeName, 
-            String.valueOf((i % queues) + 1), // routing key
-            atmTransactions.get(i));
-
+          this.rabbitTemplate.convertAndSend(exchangeName, 
+              routingKey,
+              atmTransaction);
+        }
         // Pause for 1 second:
+        i += throughput;
+        i = i % atmTransactions.size();
         Thread.sleep(1000);
-      }
       }
     } catch (IOException e) {
       e.printStackTrace();
