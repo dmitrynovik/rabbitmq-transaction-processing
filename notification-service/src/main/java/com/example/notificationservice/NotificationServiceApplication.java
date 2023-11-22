@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.geode.cache.client.SocketFactory;
+import org.apache.geode.cache.client.proxy.ProxySocketFactories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.connection.Connection;
@@ -23,6 +25,8 @@ import org.springframework.data.gemfire.config.annotation.EnableCachingDefinedRe
 import org.springframework.data.gemfire.config.annotation.EnablePdx;
 
 import com.rabbitmq.client.Channel;
+
+import io.micrometer.common.util.StringUtils;
 
 @SpringBootApplication
 @ClientCacheApplication
@@ -48,6 +52,15 @@ public class NotificationServiceApplication {
 		System.setProperty("spring.amqp.deserialization.trust.all","true");
 		SpringApplication.run(NotificationServiceApplication.class, args);
 	}
+	
+	@Bean
+    SocketFactory myProxySocketFactory(@Value("${gemfire.sni.host}") String host, @Value("${gemfire.sni.port}") int port) {
+		if (port > 0 && !StringUtils.isBlank(host)) {
+			logger.info("Connecting to GemFire load balancer proxy at " + host + ":" + port);
+        	return ProxySocketFactories.sni(host, port);
+		}
+		return SocketFactory.DEFAULT;
+    }
 
 	@Bean
 	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
@@ -61,8 +74,8 @@ public class NotificationServiceApplication {
 		for (int i = 0; i < queues; ++i) {
 			queueNames[i] = "txQueue_" + (i + 1);
 		}
+
 		container.setQueueNames(queueNames);
-		
 		container.setMessageListener(listenerAdapter);
 		return container;
 	}
