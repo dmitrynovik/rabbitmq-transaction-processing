@@ -43,7 +43,7 @@ dependencies {
 	implementation "com.vmware.gemfire:spring-boot-3.1-gemfire-10.0:${SPRING_BOOT_GEMFIRE_VERSION}"
     implementation "com.vmware.gemfire:gemfire-core:${GEMFIRE_VERSION}"
     // if using continuous queries
-    implementation "com.vmware.gemfire:gemfire-cq:10.0.2"
+    implementation "com.vmware.gemfire:gemfire-cq:${GEMFIRE_VERSION}"
 
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
