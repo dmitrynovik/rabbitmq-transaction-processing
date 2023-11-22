@@ -17,10 +17,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.gemfire.cache.config.EnableGemfireCaching;
+import org.springframework.data.gemfire.config.annotation.ClientCacheApplication;
+import org.springframework.data.gemfire.config.annotation.EnableCachingDefinedRegions;
+import org.springframework.data.gemfire.config.annotation.EnablePdx;
 
 import com.rabbitmq.client.Channel;
 
 @SpringBootApplication
+@ClientCacheApplication
+@EnableGemfireCaching
+@EnablePdx
+@EnableCachingDefinedRegions
 public class NotificationServiceApplication {
 	static final String queuePrefix = "txQueue_";
   	static final Map<String, Object> quorumQueueArgs = Map.of("x-queue-type", "quorum");
