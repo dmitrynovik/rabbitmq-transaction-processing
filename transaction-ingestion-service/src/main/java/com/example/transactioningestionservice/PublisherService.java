@@ -1,9 +1,7 @@
 package com.example.transactioningestionservice;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import org.slf4j.Logger;
@@ -12,13 +10,13 @@ import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.rabbitmq.client.Channel;
 
 import common.data.AtmTransaction;
 
-@Component
+@Service
 public class PublisherService implements CommandLineRunner {
 
   static final String exchangeName = common.Configuration.TransactionsExchange.getName();
@@ -27,16 +25,14 @@ public class PublisherService implements CommandLineRunner {
   Logger logger = LoggerFactory.getLogger(PublisherService.class);
   private int throughput;
   private boolean running;
-  private int queues;
 
-  public void run() { running = true;}int i = 0;
+  public void run() { running = true;}
 
   public void stop() { running = false; }
   
-  public PublisherService(@Value("${rabbitmq.throughput:1}") int throughput, @Value("${rabbitmq.queues:4}") int queues,
+  public PublisherService(@Value("${rabbitmq.throughput:1}") int throughput,
     RabbitTemplate rabbitTemplate) throws IOException, TimeoutException {
 
-    this.queues = queues;
     this.throughput = throughput;
     this.rabbitTemplate = rabbitTemplate;
     declareExchange();

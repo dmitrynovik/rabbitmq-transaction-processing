@@ -3,11 +3,11 @@ package com.example.notificationservice;
 import java.util.concurrent.CountDownLatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import common.data.AtmTransaction;
 
-@Component
+@Service
 public class ConsumerService {
 
 	Logger logger = LoggerFactory.getLogger(ConsumerService.class);

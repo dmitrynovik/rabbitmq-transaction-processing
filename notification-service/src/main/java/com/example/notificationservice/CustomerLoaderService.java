@@ -16,13 +16,11 @@ public class CustomerLoaderService extends ResourceService<Customer> {
 
     public CustomerLoaderService() throws IOException {
         toStream("/data/sample_contact_info.json", Customer.class)
-           .forEach(customer -> {
-                cache(customer);
-           });
+           .forEach(customer -> cachePut(customer));
     }
 
     @CachePut(cacheNames = "Customers", key = "#result.accountNumber")
-    public Customer cache(Customer customer) {
+    public Customer cachePut(Customer customer) {
         logger.info("Caching customer: " + customer.accountNumber);
         return customer;
     }
