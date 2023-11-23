@@ -66,7 +66,7 @@ public class PublisherService implements CommandLineRunner {
         // 
         for (int j = i; j < i + throughput; ++j) {
           AtmTransaction atmTransaction = atmTransactions.get(j % atmTransactions.size());
-          String routingKey = atmTransaction.processId; // String.valueOf((j % queues) + 1);
+          String routingKey = atmTransaction.processId;
           logger.info("(" + j + ") Sending transaction: " + atmTransaction.processId + ", routingKey = " + routingKey);
 
           this.rabbitTemplate.convertAndSend(exchangeName, 

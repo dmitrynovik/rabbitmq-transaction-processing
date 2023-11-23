@@ -7,14 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
-import common.data.Customer;
 import common.services.ResourceService;
 
 @Service
-public class CustomerLoaderService extends ResourceService<Customer> {
-    private static final Logger logger = LoggerFactory.getLogger(CustomerLoaderService.class);
+public class CustomerCache extends ResourceService<Customer> {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerCache.class);
 
-    public CustomerLoaderService() throws IOException {
+    public CustomerCache() throws IOException {
         toStream("/data/sample_contact_info.json", Customer.class)
            .forEach(customer -> cachePut(customer));
     }
