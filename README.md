@@ -1,3 +1,5 @@
+![Architecture](Docs/architecture.png)
+
 ## Docker
 ```
 # build
