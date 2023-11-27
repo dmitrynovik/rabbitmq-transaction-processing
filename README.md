@@ -29,3 +29,11 @@ From the CLI or the IDE, do:
 ```
 ./gradlew :notification-service:bootRun
 ```
+
+## Connecting to GemFire on K8s
+```
+kubectl -n tanzu-gemfire exec -it gemfire-cluster-locator-0 -- gfsh
+
+# type in gfsh:
+connect --locator=gemfire-cluster-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local[10334] --security-properties-file=/security/gfsecurity.properties
+```

@@ -1,4 +1,4 @@
-package com.example.notificationservice;
+package com.example.notificationservice.data;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

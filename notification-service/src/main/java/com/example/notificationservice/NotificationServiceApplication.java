@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.geode.cache.client.ClientRegionShortcut;
 import org.apache.geode.cache.client.SocketFactory;
 import org.apache.geode.cache.client.proxy.ProxySocketFactories;
 import org.slf4j.Logger;
@@ -15,15 +16,19 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.gemfire.cache.config.EnableGemfireCaching;
 import org.springframework.data.gemfire.config.annotation.ClientCacheApplication;
 import org.springframework.data.gemfire.config.annotation.EnableCachingDefinedRegions;
 import org.springframework.data.gemfire.config.annotation.EnablePdx;
 
+import com.example.notificationservice.services.ConsumerService;
+import com.example.notificationservice.services.CustomerCache;
 import com.rabbitmq.client.Channel;
 
 import io.micrometer.common.util.StringUtils;
@@ -32,7 +37,7 @@ import io.micrometer.common.util.StringUtils;
 @ClientCacheApplication
 @EnableGemfireCaching
 @EnablePdx
-@EnableCachingDefinedRegions
+@EnableCachingDefinedRegions(clientRegionShortcut = ClientRegionShortcut.PROXY)
 public class NotificationServiceApplication {
 	static final String queuePrefix = "txQueue_";
   	static final Map<String, Object> quorumQueueArgs = Map.of("x-queue-type", "quorum");
@@ -41,6 +46,10 @@ public class NotificationServiceApplication {
 	
 	private RabbitTemplate rabbitTemplate;
 	private int queues;
+	private SimpleMessageListenerContainer container;
+
+	@Autowired
+	private ApplicationContext context;
 
 	public NotificationServiceApplication(RabbitTemplate rabbitTemplate, @Value("${rabbitmq.queues:4}") int queues) throws IOException, TimeoutException {
 		this.rabbitTemplate = rabbitTemplate;
@@ -63,11 +72,14 @@ public class NotificationServiceApplication {
     }
 
 	@Bean
-	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-			MessageListenerAdapter listenerAdapter) {
+	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) throws IOException {
 		
 		logger.info("Creating RabbitMQ Simple Message Listener Container");
-		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+
+		CustomerCache customerCache = context.getBean(CustomerCache.class);
+		customerCache.loadAll();
+
+		container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 
 		String[] queueNames = new String[queues];
@@ -79,6 +91,10 @@ public class NotificationServiceApplication {
 		container.setMessageListener(listenerAdapter);
 		return container;
 	}
+
+	// @EventListener(ApplicationReadyEvent.class)
+	// void onApplicationReady() {
+	// }
 
 	@Bean
 	MessageListenerAdapter listenerAdapter(ConsumerService receiver) {
