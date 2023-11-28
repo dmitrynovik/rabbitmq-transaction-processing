@@ -24,7 +24,7 @@ import org.springframework.data.gemfire.repository.config.EnableGemfireRepositor
 @EnableGemfireRepositories(basePackageClasses = CustomerRepository.class)
 @EnablePool(name = "sniPool", socketFactoryBeanName = "myProxySocketFactory")
 @EnablePdx
-@EnableCachingDefinedRegions(clientRegionShortcut = ClientRegionShortcut.PROXY, serverRegionShortcut = RegionShortcut.PARTITION, poolName = "sniPool")
+@EnableCachingDefinedRegions(clientRegionShortcut = ClientRegionShortcut.PROXY, serverRegionShortcut = RegionShortcut.REPLICATE, poolName = "sniPool")
 public class GemFireConfig {
 
   private static final Logger logger = LoggerFactory.getLogger(GemFireConfig.class);
