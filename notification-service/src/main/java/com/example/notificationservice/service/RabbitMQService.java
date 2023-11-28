@@ -3,8 +3,6 @@ package com.example.notificationservice.service;
 import com.rabbitmq.client.Channel;
 
 import common.services.ResourceService;
-
-import com.example.notificationservice.config.TransactionsExchange;
 import com.example.notificationservice.domain.Customer;
 
 import org.slf4j.Logger;
@@ -95,7 +93,7 @@ public class RabbitMQService {
 
       int i = 0;
       for (String q : queueNames) {
-        ch.queueBind(q, TransactionsExchange.getName(), String.valueOf(++i));
+        ch.queueBind(q, common.Configuration.TransactionsExchange.getName(), String.valueOf(++i));
       }
 
     } finally {
