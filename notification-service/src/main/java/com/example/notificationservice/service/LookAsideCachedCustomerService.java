@@ -1,22 +1,22 @@
-package com.example.notificationservice.services;
+package com.example.notificationservice.service;
 
-import java.util.Optional;
-
+import com.example.notificationservice.domain.Customer;
+import com.example.notificationservice.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.notificationservice.data.Customer;
+import java.util.Optional;
 
 @Service
-public class LookAsideCachedCustomerRepository {
+public class LookAsideCachedCustomerService {
     @Autowired
-    private CustomerCache customerCache;
+    private CustomerService customerService;
 
     @Autowired
     private CustomerRepository customerRepository;
 
     public Optional<Customer> findById(String id) {
-        Customer cached = customerCache.cacheGet(id);
+        Customer cached = customerService.cacheGet(id);
         return cached == null ? customerRepository.findById(id) : Optional.of(cached);
     }
 }

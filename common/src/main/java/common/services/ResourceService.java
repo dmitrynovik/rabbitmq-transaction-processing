@@ -12,10 +12,9 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public abstract class ResourceService<T> {
+public class ResourceService<T> {
 
-    // TODO: classId replacement
-    protected Stream<T> toStream(String path, Class classId) throws IOException {
+    public Stream<T> toStream(String path, Class classId) throws IOException {
         InputStream inputStream = getClass().getResourceAsStream(path);
         ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
         JsonParser jsonParser = objectMapper.getFactory().createParser(inputStream);
