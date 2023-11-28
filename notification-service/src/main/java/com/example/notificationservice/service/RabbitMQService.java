@@ -1,7 +1,12 @@
 package com.example.notificationservice.service;
 
 import com.rabbitmq.client.Channel;
+
+import common.services.ResourceService;
+
 import com.example.notificationservice.config.TransactionsExchange;
+import com.example.notificationservice.domain.Customer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.connection.Connection;
@@ -46,6 +51,11 @@ public class RabbitMQService {
   SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter, CustomerService customerService) throws IOException {
 
     logger.info("Creating RabbitMQ Simple Message Listener Container");
+
+    // Load all customers into cache before consuming messages:
+    new ResourceService<Customer>()
+      .toStream("/data/sample_contact_info.json", Customer.class)
+      .forEach(customer -> customerService.cachePut(customer));
 
     container = new SimpleMessageListenerContainer();
     container.setConnectionFactory(connectionFactory);
