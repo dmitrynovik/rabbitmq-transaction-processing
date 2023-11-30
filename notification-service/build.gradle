@@ -8,6 +8,8 @@ plugins {
 ext {
 	set('GEMFIRE_VERSION', '10.0.2')
 	set('SPRING_BOOT_GEMFIRE_VERSION', '1.0.1')
+	set('springCloudVersion', "2023.0.0-SNAPSHOT")
+	set('SPRING_K8S_VERSION', '3.0.4')
 }
 
 java {
@@ -51,6 +53,8 @@ dependencies {
     implementation "com.vmware.gemfire:gemfire-cq:${GEMFIRE_VERSION}"
 
 	implementation 'com.h2database:h2'
+
+	implementation "org.springframework.cloud:spring-cloud-starter-kubernetes-client-all:${SPRING_K8S_VERSION}"
 	
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

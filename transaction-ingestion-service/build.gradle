@@ -16,12 +16,13 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "2023.0.0-SNAPSHOT")
+	set('springCloudVersion', "2022.0.4")
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		//mavenBom("org.springframework.cloud:spring-cloud-kubernetes-dependencies")
 	}
 }
 
@@ -37,6 +38,8 @@ dependencies {
 	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 	implementation 'org.springframework.cloud:spring-cloud-stream'
 	implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+
+	implementation "org.springframework.cloud:spring-cloud-starter-kubernetes-client-all"
 
 	implementation project(':common')
 
