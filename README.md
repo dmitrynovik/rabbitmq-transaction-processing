@@ -6,7 +6,7 @@
 docker build -t transaction-ingestion-service .
 
 # run (in Docker)
-docker run --rm -p8080:8080 transaction-ingestion-service
+docker run --rm -p8081:8080 transaction-ingestion-service
 ```
 ## Prerequisites
 
@@ -38,4 +38,59 @@ kubectl -n tanzu-gemfire exec -it gemfire-cluster-locator-0 -- gfsh
 
 # type in gfsh:
 connect --locator=gemfire-cluster-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local[10334] --security-properties-file=/security/gfsecurity.properties
+```
+## Creating a Helm Chart
+### Health Endpoints
+```
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+```
+### .helmignore
+```
+deploy.sh
+*.tgz
+```
+### Chart.yaml
+```
+appVersion: "latest"
+```
+### Values.yaml
+```
+image:
+  repository: localhost:5001/weather-web-server
+  name: weather-web-server
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+```
+
+```
+service:
+  enabled: true
+  type: LoadBalancer
+  port: 80
+  targetPort: 80
+  protocol: TCP
+```
+
+```
+ingress:
+  enabled: false
+  annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: weather-web-server.local
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: weather-web-server-svc
+            servicePort: 80
 ```
