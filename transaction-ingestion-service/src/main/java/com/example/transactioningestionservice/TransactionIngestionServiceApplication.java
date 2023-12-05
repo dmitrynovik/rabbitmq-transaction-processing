@@ -1,31 +1,21 @@
 package com.example.transactioningestionservice;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.health.CompositeReactiveHealthContributor;
-import org.springframework.boot.actuate.health.ReactiveHealthContributor;
-import org.springframework.boot.actuate.health.ReactiveHealthIndicator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
 public class TransactionIngestionServiceApplication {
+
+	@Autowired
+	private PublisherService publisherService;
+
 	public static void main(String[] args) {
 		System.setProperty("spring.amqp.deserialization.trust.all","true");
 
-		SpringApplication.run(TransactionIngestionServiceApplication.class, args);
-
-		// new SpringApplicationBuilder(TransactionIngestionServiceApplication.class)
-		// 	.web(WebApplicationType.NONE)
-		// 	.run(args);
+		new SpringApplicationBuilder(TransactionIngestionServiceApplication.class)
+			.web(WebApplicationType.SERVLET)
+			.run(args);
 	}
-
-	@Bean
-  ReactiveHealthContributor coreServices() {
-    final Map<String, ReactiveHealthIndicator> registry = new LinkedHashMap<>();
-    return CompositeReactiveHealthContributor.fromMap(registry);
-  }
-
 }
