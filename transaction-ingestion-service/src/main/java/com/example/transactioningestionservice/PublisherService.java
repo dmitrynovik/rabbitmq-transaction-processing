@@ -45,7 +45,7 @@ public class PublisherService implements CommandLineRunner {
 
   @EventListener(ApplicationReadyEvent.class)
   public void doSomethingAfterStartup() {
-      System.out.println("hello world, I have just started up");
+      System.out.println("The application has started up");
       
   }
 

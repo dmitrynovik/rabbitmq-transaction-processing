@@ -8,9 +8,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SpringBootApplication
 public class TransactionIngestionServiceApplication {
 
-	@Autowired
-	private PublisherService publisherService;
-
 	public static void main(String[] args) {
 		System.setProperty("spring.amqp.deserialization.trust.all","true");
 

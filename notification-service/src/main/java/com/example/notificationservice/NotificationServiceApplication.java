@@ -10,6 +10,8 @@ public class NotificationServiceApplication {
   public static void main(String[] args) {
 	System.setProperty("spring.amqp.deserialization.trust.all","true");
 
-    new SpringApplicationBuilder(NotificationServiceApplication.class).web(WebApplicationType.NONE).run(args);
+    new SpringApplicationBuilder(NotificationServiceApplication.class)
+      .web(WebApplicationType.SERVLET)
+      .run(args);
   }
 }
