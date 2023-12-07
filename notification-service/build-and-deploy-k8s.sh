@@ -25,6 +25,7 @@ cd k8s/helm/chart/$chart_name
 helm package .
 kubectl create namespace $namespace --dry-run=client -o yaml | kubectl apply -f-
 set +e
+kubectl apply -f ../../../permissions.yaml
 #set +o pipefail
 # kubectl -n $namespace delete deployment $image
 # kubectl -n $namespace delete svc $image

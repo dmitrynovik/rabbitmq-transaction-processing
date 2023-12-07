@@ -17,7 +17,7 @@ metadata:
   namespace: transaction-processing
 subjects:
 - kind: ServiceAccount
-  name: transaction-ingestion-service
+  name: notification-service
   apiGroup: ""
 roleRef:
   kind: Role

@@ -1,4 +1,4 @@
-set -eo pipefail
+#set -eo pipefail
 
 project="transaction-ingestion-service"
 
@@ -20,6 +20,7 @@ helm package .
 kubectl create namespace $namespace --dry-run=client -o yaml | kubectl apply -f-
 kubectl -n $namespace delete deployment $image
 kubectl -n $namespace delete svc $image
+kubectl apply -f ../../../permissions.yaml
 helm -n $namespace delete $chart_name
 helm -n $namespace install $chart_name "./$chart_name-$chart_version.tgz"
 
