@@ -104,15 +104,6 @@ public class PublisherService implements CommandLineRunner {
         // Pause for 1 second:
         i += throughput;
         i = i % atmTransactions.size();
-        Thread.sleep(1000);Runnable runnable = () -> {
-          try {
-            runImpl();
-          } catch (InterruptedException e) {
-            logger.error("Error executing the runner: %s", e);
-          }
-        };
-        
-        runnable.run();
       }
     } catch (IOException e) {
       e.printStackTrace();
