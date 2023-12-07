@@ -1,5 +1,3 @@
-set -eo pipefail
-
 project="notification-service"
 
 registry="localhost:5001"
@@ -8,7 +6,15 @@ chart_name=$project
 chart_version="0.1.0" # Increment each time!
 namespace="transaction-processing"
 
-../gradlew -Dskip.tests build
+kubectl -n $namespace delete deployment $image
+kubectl -n $namespace delete svc $image
+helm -n $namespace delete $chart_name
+
+set -eo pipefail
+
+cd ../
+./gradlew -Dskip.tests build
+cd $project
 
 docker build -t $image .
 docker tag $image "$registry/$image"
@@ -18,9 +24,11 @@ cd k8s/helm/chart/$chart_name
 
 helm package .
 kubectl create namespace $namespace --dry-run=client -o yaml | kubectl apply -f-
-kubectl -n $namespace delete deployment $image
-kubectl -n $namespace delete svc $image
-helm -n $namespace delete $chart_name
+set +e
+#set +o pipefail
+# kubectl -n $namespace delete deployment $image
+# kubectl -n $namespace delete svc $image
+#set -eo pipefail
 helm -n $namespace install $chart_name "./$chart_name-$chart_version.tgz"
 
 kubectl wait --namespace $namespace --for=condition=ready pod --selector=app.kubernetes.io/name=$image --timeout=30s
