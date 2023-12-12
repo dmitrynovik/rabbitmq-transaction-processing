@@ -37,16 +37,16 @@ public class PublisherService implements CommandLineRunner {
   
   public PublisherService(@Value("${rabbitmq.throughput:1}") int throughput,
     RabbitTemplate rabbitTemplate) throws IOException, TimeoutException {
+      logger.info("Connecting to the RabbitMQ at: " + rabbitTemplate.getConnectionFactory().getHost());
 
-    this.throughput = throughput;
-    this.rabbitTemplate = rabbitTemplate;
-    declareExchange();
+      this.throughput = throughput;
+      this.rabbitTemplate = rabbitTemplate;
+      declareExchange();
   }
 
   @EventListener(ApplicationReadyEvent.class)
   public void doSomethingAfterStartup() {
-      System.out.println("The application has started up");
-      
+      logger.info("The application has started up");
   }
 
   @EventListener
