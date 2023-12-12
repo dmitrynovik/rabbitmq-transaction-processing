@@ -7,3 +7,4 @@ Pool unexpected closed socket on server connection=Pooled Connection to gemfire-
 Pool unexpected closed socket on server connection=Pooled Connection to gemfire-cluster-server-1.gemfire-cluster-server.tanzu-gemfire.svc.cluster.local:40404,gemfire-cluster-server-1(gemfire-cluster-server-1:1)<v1>:42149: Connection[DESTROYED]). Server unreachable: could not connect after 1 attempts
 Could not find any server to host primary client queue. Number of excluded servers is 0 and exception is Unable to connect to any locators in the list [gemfire-cluster-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local/<unresolved>:10334]
 ```
+- fix Logs not appearing
