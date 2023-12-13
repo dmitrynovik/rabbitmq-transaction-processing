@@ -8,19 +8,28 @@ chart_name=$project
 chart_version="0.1.0" # Increment each time!
 namespace="transaction-processing"
 
-../gradlew -Dskip.tests build
+cd ../
+./gradlew -Dskip.tests build
+
+kubectl create namespace $namespace --dry-run=client -o yaml | kubectl apply -f-
+
+cd k8s/
+kubectl -n $namespace apply -f configmap.yaml
+kubectl -n $namespace apply -f secret.yaml
+cd ../$project
 
 docker build -t $image .
 docker tag $image "$registry/$image"
 docker image push "$registry/$image"
 
+echo "PATH IS $(pwd)"
 cd k8s/helm/chart/$chart_name
 
 helm package .
-kubectl create namespace $namespace --dry-run=client -o yaml | kubectl apply -f-
 kubectl -n $namespace delete deployment $image
 kubectl -n $namespace delete svc $image
-kubectl apply -f ../../../permissions.yaml
+set +e
+kubectl apply -f ../../../../k8s/permissions.yaml
 helm -n $namespace delete $chart_name
 helm -n $namespace install $chart_name "./$chart_name-$chart_version.tgz"
 

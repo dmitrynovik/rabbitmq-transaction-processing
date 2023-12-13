@@ -38,3 +38,6 @@ out/
 
 ### Archives
 *.tgz
+
+### Dependenices list
+deps.txt

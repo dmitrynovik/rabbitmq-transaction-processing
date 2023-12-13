@@ -101,9 +101,11 @@ public class PublisherService implements CommandLineRunner {
               routingKey,
               atmTransaction);
         }
+
         // Pause for 1 second:
         i += throughput;
         i = i % atmTransactions.size();
+        Thread.sleep(1000);
       }
     } catch (IOException e) {
       e.printStackTrace();
