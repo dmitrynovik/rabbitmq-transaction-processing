@@ -22,16 +22,15 @@ docker build -t $image .
 docker tag $image "$registry/$image"
 docker image push "$registry/$image"
 
-echo "PATH IS $(pwd)"
 cd k8s/helm/chart/$chart_name
 
 helm package .
 kubectl -n $namespace delete deployment $image
 kubectl -n $namespace delete svc $image
 set +e
-kubectl apply -f ../../../../k8s/permissions.yaml
+kubectl apply -f ../../../../../k8s/permissions.yaml
 helm -n $namespace delete $chart_name
 helm -n $namespace install $chart_name "./$chart_name-$chart_version.tgz"
 
-kubectl wait --namespace $namespace --for=condition=ready pod --selector=app.kubernetes.io/name=$image --timeout=30s
+kubectl wait --namespace $namespace --for=condition=ready pod --selector=app.kubernetes.io/name=$image --timeout=40s
 kubectl -n $namespace get pods

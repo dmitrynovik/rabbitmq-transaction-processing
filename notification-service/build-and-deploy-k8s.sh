@@ -31,10 +31,11 @@ set +e
 #set +o pipefail
 kubectl -n $namespace delete deployment $image
 kubectl -n $namespace delete svc $image
-#set -eo pipefail
+
 helm -n $namespace delete $chart_name
-kubectl apply -f ../../../../k8s/permissions.yaml
+set +e
+kubectl apply -f ../../../../../k8s/permissions.yaml
 helm -n $namespace install $chart_name "./$chart_name-$chart_version.tgz"
 
-kubectl wait --namespace $namespace --for=condition=ready pod --selector=app.kubernetes.io/name=$image --timeout=30s
+kubectl wait --namespace $namespace --for=condition=ready pod --selector=app.kubernetes.io/name=$image --timeout=40s
 kubectl -n $namespace get pods
