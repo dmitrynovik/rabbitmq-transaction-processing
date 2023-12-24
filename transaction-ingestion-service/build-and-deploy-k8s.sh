@@ -28,7 +28,7 @@ helm package .
 kubectl -n $namespace delete deployment $image
 kubectl -n $namespace delete svc $image
 set +e
-kubectl apply -f ../../../../../k8s/permissions.yaml
+kubectl apply -f ../../../../k8s/permissions.yaml
 helm -n $namespace delete $chart_name
 helm -n $namespace install $chart_name "./$chart_name-$chart_version.tgz"
 

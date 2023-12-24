@@ -13,18 +13,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.gemfire.cache.config.EnableGemfireCaching;
 import org.springframework.data.gemfire.config.annotation.ClientCacheApplication;
-import org.springframework.data.gemfire.config.annotation.EnableCachingDefinedRegions;
+import org.springframework.data.gemfire.config.annotation.EnableEntityDefinedRegions;
 import org.springframework.data.gemfire.config.annotation.EnablePdx;
-import org.springframework.data.gemfire.config.annotation.EnablePool;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 
 @Configuration
 @ClientCacheApplication
 @EnableGemfireCaching
 @EnableGemfireRepositories(basePackageClasses = CustomerRepository.class)
-@EnablePool(name = "sniPool", socketFactoryBeanName = "myProxySocketFactory")
+//@EnablePool(name = "sniPool", socketFactoryBeanName = "myProxySocketFactory")
 @EnablePdx
-@EnableCachingDefinedRegions(clientRegionShortcut = ClientRegionShortcut.PROXY, serverRegionShortcut = RegionShortcut.REPLICATE, poolName = "sniPool")
+//@EnableCachingDefinedRegions(clientRegionShortcut = ClientRegionShortcut.PROXY, serverRegionShortcut = RegionShortcut.REPLICATE/* , poolName = "sniPool"*/)
+@EnableEntityDefinedRegions(clientRegionShortcut = ClientRegionShortcut.PROXY, serverRegionShortcut = RegionShortcut.REPLICATE/* , poolName = "sniPool"*/)
+//@EnableClusterConfiguration
 public class GemFireConfig {
 
   private static final Logger logger = LoggerFactory.getLogger(GemFireConfig.class);

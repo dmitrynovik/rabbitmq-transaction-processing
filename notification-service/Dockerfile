@@ -11,5 +11,5 @@ COPY --from=builder extracted/snapshot-dependencies/ ./
 COPY --from=builder extracted/application/ ./
 COPY ./certs/*.* ./certs/
 EXPOSE 8080
-# ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"] # Spring Boot 3.2+
-ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"] # Spring Boot 3.2+
+#ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]

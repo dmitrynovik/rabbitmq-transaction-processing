@@ -1,19 +1,48 @@
-# Apply as:
-# kubectl -n transaction-processing -f configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: settings
 data:
-  spring.rabbitmq.host: tanzu-rabbitmq.rabbitmq-system.svc.cluster.local
-  spring.rabbitmq.port: "5672"
-  spring.rabbitmq.username: admin
-  spring.rabbitmq.password: admin
-
-  rabbitmq.queues: "5"
-  rabbitmq.throughput: "2"
-
-  gemfire.sni.host: envoy-gemfire-gateway.tanzu-gemfire.svc.cluster.local
-  gemfire.sni.port: "9000"
-
-  spring.data.gemfire.cache.name: Customers
+  application.yaml: |-
+    gemfire:
+        sni:
+            host: envoy-gemfire-gateway.tanzu-gemfire.svc.cluster.local
+            port: 9000
+    rabbitmq:
+        queues: 5
+        throughput: 2
+    spring:
+        data:
+            gemfire:
+                cache:
+                    name: Customers
+        rabbitmq:
+            host: tanzu-rabbitmq.rabbitmq-system.svc.cluster.local
+            password: admin
+            port: 5672
+            username: admin
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notification-service
+data:
+  application.yaml: |-
+    gemfire:
+    sni:
+        host: envoy-gemfire-gateway.tanzu-gemfire.svc.cluster.local
+        port: 9000
+    rabbitmq:
+        queues: 5
+        throughput: 2
+    spring:
+        data:
+            gemfire:
+                cache:
+                    name: Customers
+        rabbitmq:
+            host: tanzu-rabbitmq.rabbitmq-system.svc.cluster.local
+            password: admin
+            port: 5672
+            username: admin
+  

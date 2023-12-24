@@ -1,13 +1,13 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.1.5'
+	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.3'
 }
 
 ext {
 	set('GEMFIRE_VERSION', '10.0.2')
 	set('SPRING_BOOT_GEMFIRE_VERSION', '1.0.1')
-	set('SPRING_K8S_VERSION', '3.0.4')
+	set('SPRING_K8S_VERSION', '3.1.0')
 }
 
 java {
@@ -55,7 +55,10 @@ dependencies {
 	implementation 'com.h2database:h2'
 
 	implementation "org.springframework.cloud:spring-cloud-starter-kubernetes-client-all:${SPRING_K8S_VERSION}"
-	
+	//implementation "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:${SPRING_K8S_VERSION}"
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-bootstrap
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '4.0.4'
+
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.amqp:spring-rabbit-test'
