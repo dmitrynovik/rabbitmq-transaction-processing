@@ -10,5 +10,5 @@ COPY --from=builder extracted/spring-boot-loader/ ./
 COPY --from=builder extracted/snapshot-dependencies/ ./
 COPY --from=builder extracted/application/ ./
 EXPOSE 8080
-#ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"] # Spring Boot 3.2+
-ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"] # Spring Boot 3.2+
+#ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"] # Spring Boot 3.1.x and older
