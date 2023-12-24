@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    bootstrap:
+      enabled: true
+    kubernetes:
+      reload:
+        enabled: true
+      config:
+        enabled: true
+        name: settings
+        namespace: transaction-processing
+        fail-fast: true
+      enabled: true

@@ -39,7 +39,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	implementation "org.springframework.cloud:spring-cloud-starter-kubernetes-client-all"
-
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-bootstrap
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '4.0.4'
 	implementation project(':common')
 
 //	developmentOnly 'org.springframework.boot:spring-boot-devtools'
