@@ -31,7 +31,7 @@ public class GemFireConfig {
   private static final Logger logger = LoggerFactory.getLogger(GemFireConfig.class);
 
   @Bean
-  SocketFactory myProxySocketFactory(@Value("${gemfire.sni.host}") String host, @Value("${gemfire.sni.port}") int port) {
+  SocketFactory myProxySocketFactory(@Value("${cache.host}") String host, @Value("${cache.port}") int port) {
     if (port > 0 && !StringUtils.isBlank(host)) {
       logger.info("Connecting to GemFire load balancer proxy at " + host + ":" + port);
       return ProxySocketFactories.sni(host, port);

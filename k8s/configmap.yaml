@@ -4,10 +4,9 @@ metadata:
   name: settings
 data:
   application.yaml: |-
-    gemfire:
-        sni:
-            host: envoy-gemfire-gateway.tanzu-gemfire.svc.cluster.local
-            port: 9000
+    cache:
+        host: envoy-gemfire-gateway.tanzu-gemfire.svc.cluster.local
+        port: 9000
     rabbitmq:
         queues: 5
         throughput: 2

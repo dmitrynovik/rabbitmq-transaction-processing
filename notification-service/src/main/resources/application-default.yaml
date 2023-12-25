@@ -22,8 +22,7 @@ spring:
         password: admin
         port: 5672
         username: admin
-gemfire:
-  sni:
+cache:
     host: 172.18.255.204
     port: 9000
 
@@ -63,8 +62,8 @@ gemfire:
 # spring.data.gemfire.security.ssl.truststore.password=NnUmHdUvLE0ds7EtWDoR6dB-uNGOCWspTGnmphwXRlQ=
 # spring.data.gemfire.security.ssl.keystore.password=NnUmHdUvLE0ds7EtWDoR6dB-uNGOCWspTGnmphwXRlQ=
 
-# gemfire.sni.host=172.18.255.204
-# gemfire.sni.port=9000
+# cache.host=172.18.255.204
+# cache.port=9000
 
 # app.prop="Y"
 
