@@ -1,0 +1,17 @@
+#debug: true
+spring:
+  config:
+    import: "kubernetes:"
+  cloud:
+    kubernetes:
+      reload:
+        enabled: true
+      config:
+        enabled: true
+        name: settings
+        namespace: transaction-processing
+        fail-fast: true
+      enabled: true
+  application:
+        name: notification-service
+

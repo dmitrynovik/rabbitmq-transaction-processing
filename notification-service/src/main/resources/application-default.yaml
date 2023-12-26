@@ -1,0 +1,81 @@
+spring:
+  application:
+        name: notification-service
+  cloud:
+    kubernetes:
+      config:
+        enabled: false
+      enabled: false
+  data:
+        gemfire:
+            cache:
+                name: Customers
+            management:
+                http:
+                    host: gemfire-cluster-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local
+            pool:
+                locators: gemfire-cluster-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local[10334]
+                socket-factory-bean-name: myProxySocketFactory
+            security:
+                ssl:
+                    keystore: ./certs/keystore.p12
+                    keystore.password: NnUmHdUvLE0ds7EtWDoR6dB-uNGOCWspTGnmphwXRlQ=
+                    truststore: ./certs/truststore.p12
+                    truststore.password: NnUmHdUvLE0ds7EtWDoR6dB-uNGOCWspTGnmphwXRlQ=
+  rabbitmq:
+        host: 172.18.255.200
+        password: admin
+        port: 5672
+        username: admin
+cache:
+    host: 172.18.255.204
+    port: 9000
+
+#spring.application.name=notification-service
+# "spring.amqp.deserialization.trust.all","true"
+
+# spring.rabbitmq.host=172.18.255.200
+# spring.rabbitmq.password=admin
+# spring.rabbitmq.port=5672
+# spring.rabbitmq.username=admin
+# rabbitmq.queues=5
+
+# logging.level.root=INFO
+# logging.level.org.springframework.cloud.config=DEBUG
+# logging.level.com.example.notificationservice=DEBUG
+# logging.level.spring.cloud.kubernetes.config=DEBUG
+
+# #spring:
+# # GemFire:
+# #
+# spring.data.gemfire.cache.name=Customers
+# # spring.data.gemfire.cache.log-level=fine
+
+# # Uncomment below for GemFire on localhost:
+# #spring.data.gemfire.pool.locators=127.0.0.1[10334]
+# spring.data.gemfire.pool.locators=gemfire-cluster-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local[10334]
+# spring.data.gemfire.management.http.host=gemfire-cluster-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local
+# spring.data.gemfire.pool.socket-factory-bean-name=myProxySocketFactory
+# #spring.data.gemfire.management.http.port=7070
+
+# spring.data.gemfire.security.ssl.truststore=./certs/truststore.p12
+# spring.data.gemfire.security.ssl.keystore=./certs/keystore.p12
+# #spring.data.gemfire.security.ssl.truststore=/home/dmitry/code/rabbitmq-transaction-processing/notification-service/certs/truststore.p12
+# #spring.data.gemfire.security.ssl.keystore=/home/dmitry/code/rabbitmq-transaction-processing/notification-service/certs/keystore.p12
+
+# # kubectl -n NAMESPACE-NAME get secret NAME-cert -o=jsonpath='{.data.password}' | base64 --decode
+# spring.data.gemfire.security.ssl.truststore.password=NnUmHdUvLE0ds7EtWDoR6dB-uNGOCWspTGnmphwXRlQ=
+# spring.data.gemfire.security.ssl.keystore.password=NnUmHdUvLE0ds7EtWDoR6dB-uNGOCWspTGnmphwXRlQ=
+
+# cache.host=172.18.255.204
+# cache.port=9000
+
+# app.prop="Y"
+
+# #management.endpoints.web.exposure.include=*
+# management.endpoint.health.probes.enabled=true
+# management.endpoint.health.show-details=always
+# management.health.livenessState.enabled=true
+# management.endpoint.health.group.liveness.include=readinessState
+# management.health.readinessState.enabled=true
+# management.endpoint.health.group.readiness.include=readinessState

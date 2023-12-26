@@ -12,8 +12,11 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -34,6 +37,9 @@ public class RabbitMQService {
 
   private Logger logger = LoggerFactory.getLogger(RabbitMQService.class);
 
+  @Autowired
+  private CustomerService customerService;
+
   public RabbitMQService(RabbitTemplate rabbitTemplate, @Value("${rabbitmq.queues:4}") int queues) throws IOException, TimeoutException {
     this.rabbitTemplate = rabbitTemplate;
     this.queues = queues;
@@ -45,15 +51,18 @@ public class RabbitMQService {
     return new MessageListenerAdapter(receiver, "receiveMessage");
   }
 
-  @Bean
-  SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter, CustomerService customerService) throws IOException {
-
-    logger.info("Creating RabbitMQ Simple Message Listener Container");
-
+  @EventListener(ApplicationReadyEvent.class)
+  public void cacheCustomers() throws IOException {
     // Load all customers into cache before consuming messages:
     new ResourceService<Customer>()
       .toStream("/data/sample_contact_info.json", Customer.class)
       .forEach(customer -> customerService.cachePut(customer));
+  }
+
+  @Bean
+  SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter, CustomerService customerService) throws IOException {
+
+    logger.info("Creating RabbitMQ Simple Message Listener Container");
 
     container = new SimpleMessageListenerContainer();
     container.setConnectionFactory(connectionFactory);

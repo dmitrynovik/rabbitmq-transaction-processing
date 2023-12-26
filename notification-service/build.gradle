@@ -1,13 +1,13 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.1.5'
+	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.3'
-	id 'myproject.java-conventions'
 }
 
 ext {
 	set('GEMFIRE_VERSION', '10.0.2')
 	set('SPRING_BOOT_GEMFIRE_VERSION', '1.0.1')
+	set('SPRING_K8S_VERSION', '3.1.0')
 }
 
 java {
@@ -40,18 +40,23 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
 	implementation project(':common')
 
 	//developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
 	implementation "com.vmware.gemfire:spring-boot-3.1-gemfire-10.0:${SPRING_BOOT_GEMFIRE_VERSION}"
-    implementation "com.vmware.gemfire:gemfire-core:${GEMFIRE_VERSION}"
+    implementation "com.vmware.gemfire:spring-boot-logging-3.1-gemfire-10.0:${SPRING_BOOT_GEMFIRE_VERSION}"
+	implementation "com.vmware.gemfire:gemfire-core:${GEMFIRE_VERSION}"
     // if using continuous queries
-    implementation "com.vmware.gemfire:gemfire-cq:${GEMFIRE_VERSION}"
+    //implementation "com.vmware.gemfire:gemfire-cq:${GEMFIRE_VERSION}"
 
 	implementation 'com.h2database:h2'
-	
+
+	implementation "org.springframework.cloud:spring-cloud-starter-kubernetes-client-all:${SPRING_K8S_VERSION}"
+
+
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.amqp:spring-rabbit-test'

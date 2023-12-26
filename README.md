@@ -6,7 +6,7 @@
 docker build -t transaction-ingestion-service .
 
 # run (in Docker)
-docker run --rm -p8080:8080 transaction-ingestion-service
+docker run --rm -p8081:8080 transaction-ingestion-service
 ```
 ## Prerequisites
 

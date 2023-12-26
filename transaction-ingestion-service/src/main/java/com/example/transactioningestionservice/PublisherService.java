@@ -10,6 +10,10 @@ import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.LivenessState;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import com.rabbitmq.client.Channel;
@@ -26,16 +30,28 @@ public class PublisherService implements CommandLineRunner {
   private int throughput;
   private boolean running;
 
+
   public void run() { running = true;}
 
   public void stop() { running = false; }
   
   public PublisherService(@Value("${rabbitmq.throughput:1}") int throughput,
     RabbitTemplate rabbitTemplate) throws IOException, TimeoutException {
+      logger.info("Connecting to the RabbitMQ at: " + rabbitTemplate.getConnectionFactory().getHost());
 
-    this.throughput = throughput;
-    this.rabbitTemplate = rabbitTemplate;
-    declareExchange();
+      this.throughput = throughput;
+      this.rabbitTemplate = rabbitTemplate;
+      declareExchange();
+  }
+
+  @EventListener(ApplicationReadyEvent.class)
+  public void doSomethingAfterStartup() {
+      logger.info("The application has started up");
+  }
+
+  @EventListener
+  public void onEvent(AvailabilityChangeEvent<LivenessState> event) {
+      logger.info("Availability changed to: " + event.getState());
   }
 
   private void declareExchange() throws IOException, TimeoutException {
@@ -53,8 +69,20 @@ public class PublisherService implements CommandLineRunner {
     }
   }
 
-  @Override
   public void run(String... args) throws InterruptedException {
+    Runnable runnable = () -> {
+      try {
+        runImpl();
+      } catch (InterruptedException e) {
+        logger.error("Error executing the runner: %s", e);
+      }
+    };
+    
+    Thread backgroundJob = new Thread(runnable);
+    backgroundJob.start();
+  }
+
+  public void runImpl() throws InterruptedException {
     try {
       // pull a batch of transactions (poC: data embedded as a resource, production: Database)
       List<AtmTransaction> atmTransactions = new TransactionService().getAll();
@@ -73,6 +101,7 @@ public class PublisherService implements CommandLineRunner {
               routingKey,
               atmTransaction);
         }
+
         // Pause for 1 second:
         i += throughput;
         i = i % atmTransactions.size();
