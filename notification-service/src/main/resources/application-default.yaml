@@ -1,6 +1,11 @@
 spring:
   application:
         name: notification-service
+  cloud:
+    kubernetes:
+      config:
+        enabled: false
+      enabled: false
   data:
         gemfire:
             cache:

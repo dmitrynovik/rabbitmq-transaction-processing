@@ -55,8 +55,7 @@ dependencies {
 	implementation 'com.h2database:h2'
 
 	implementation "org.springframework.cloud:spring-cloud-starter-kubernetes-client-all:${SPRING_K8S_VERSION}"
-	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-bootstrap
-	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '4.0.4'
+
 
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
