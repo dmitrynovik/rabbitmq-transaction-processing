@@ -26,7 +26,6 @@ cd k8s/helm/chart/$chart_name
 
 helm package .
 kubectl -n $namespace delete deployment $image
-kubectl -n $namespace delete statefulset $image
 kubectl -n $namespace delete svc $image
 set +e
 kubectl apply -f ../../../../../k8s/permissions.yaml

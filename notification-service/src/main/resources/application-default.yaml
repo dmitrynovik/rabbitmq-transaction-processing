@@ -38,7 +38,6 @@ cache:
 # spring.rabbitmq.password=admin
 # spring.rabbitmq.port=5672
 # spring.rabbitmq.username=admin
-# rabbitmq.queues=5
 
 # logging.level.root=INFO
 # logging.level.org.springframework.cloud.config=DEBUG

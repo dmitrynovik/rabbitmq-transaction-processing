@@ -30,6 +30,7 @@ set +e
 
 #set +o pipefail
 kubectl -n $namespace delete deployment $image
+kubectl -n $namespace delete statefulset $image
 kubectl -n $namespace delete svc $image
 
 helm -n $namespace delete $chart_name

@@ -2,8 +2,10 @@ package com.example.notificationservice.service;
 
 import com.rabbitmq.client.Channel;
 
+import common.Configuration.TransactionsExchange;
 import common.services.ResourceService;
 import com.example.notificationservice.domain.Customer;
+import com.example.notificationservice.service.utils.RabbitMQUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,26 +15,21 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 @Service
 public class RabbitMQService {
 
-  private static final String queuePrefix = "txQueue_";
   private static final Map<String, Object> quorumQueueArgs = Map.of("x-queue-type", "quorum");
 
   private RabbitTemplate rabbitTemplate;
-  private int queues;
   private SimpleMessageListenerContainer container;
 
   private Logger logger = LoggerFactory.getLogger(RabbitMQService.class);
@@ -40,9 +37,8 @@ public class RabbitMQService {
   @Autowired
   private CustomerService customerService;
 
-  public RabbitMQService(RabbitTemplate rabbitTemplate, @Value("${rabbitmq.queues:4}") int queues) throws IOException, TimeoutException {
+  public RabbitMQService(RabbitTemplate rabbitTemplate) throws IOException, TimeoutException {
     this.rabbitTemplate = rabbitTemplate;
-    this.queues = queues;
     createAndBindQueues();
   }
 
@@ -67,12 +63,7 @@ public class RabbitMQService {
     container = new SimpleMessageListenerContainer();
     container.setConnectionFactory(connectionFactory);
 
-    String[] queueNames = new String[queues];
-    for (int i = 0; i < queues; ++i) {
-      queueNames[i] = "txQueue_" + (i + 1);
-    }
-
-    container.setQueueNames(queueNames);
+    container.setQueueNames(RabbitMQUtils.getQueueName());
     container.setMessageListener(listenerAdapter);
     return container;
   }
@@ -87,23 +78,12 @@ public class RabbitMQService {
 
     try {
       logger.info("RabbitMQ shall connect to: " + rabbitTemplate.getConnectionFactory().getHost());
-      logger.info("Number of queues to declare: " + queues);
-
-      List<String> queueNames = new ArrayList<>(queues);
-      for (int i = 1; i <= queues; ++i)
-        queueNames.add(queuePrefix + i);
-
-      // Declare RabbitMQ queues of type quorum:
-      for (String q : queueNames) {
-        logger.info("Declaring RabbitMQ queue: " + q);
-        ch.queueDeclare(q, true, false, false, quorumQueueArgs);
-        //ch.queuePurge(q);
-      }
-
-      int i = 0;
-      for (String q : queueNames) {
-        ch.queueBind(q, common.Configuration.TransactionsExchange.getName(), String.valueOf(++i));
-      }
+      String queueName = RabbitMQUtils.getQueueName();
+      String routingKey = RabbitMQUtils.getRoutingKey();
+ 
+      logger.info("Declaring RabbitMQ queue: " + queueName + " and binding using routing key: " + routingKey);
+      ch.queueDeclare(queueName, true, false, false, quorumQueueArgs);
+      ch.queueBind(queueName, TransactionsExchange.getName(), routingKey);
 
     } finally {
       ch.close();
