@@ -38,11 +38,6 @@ spec:
     spec:
       serviceAccountName: {{ include "notification-service.serviceAccountName" . }}
       containers:
-        # env:
-        #     - name: MY_POD_NAME
-        #       valueFrom:
-        #         fieldRef:
-        #         fieldPath: metadata.name
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -50,14 +45,6 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-        #   livenessProbe:
-        #     httpGet:
-        #       path: /
-        #       port: http
-        #   readinessProbe:
-        #     httpGet:
-        #       path: /
-        #       port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
