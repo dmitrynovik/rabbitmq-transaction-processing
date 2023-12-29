@@ -8,7 +8,7 @@ spring:
         enabled: true
       config:
         enabled: true
-        name: settings
+        name: notification-service
         namespace: transaction-processing
         fail-fast: true
       enabled: true
