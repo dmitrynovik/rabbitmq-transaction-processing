@@ -22,7 +22,7 @@ Follow the [guide](https://helm.sh/docs/intro/install/)
 Follow the [guide](https://docs.vmware.com/en/VMware-RabbitMQ-for-Kubernetes/1/rmq/installation.html)
 
 ### Install GemFire
-* Install the [operator](https://docs.vmware.com/en/VMware-GemFire-for-Kubernetes/2.3/gf-k8s/install.html)
+* Install the [Kubernetes GemFire operator](https://docs.vmware.com/en/VMware-GemFire-for-Kubernetes/2.3/gf-k8s/install.html)
 * Create a [GemFire cluster](https://docs.vmware.com/en/VMware-GemFire-for-Kubernetes/2.3/gf-k8s/create-and-delete.html)
 
 ### Install JDK
