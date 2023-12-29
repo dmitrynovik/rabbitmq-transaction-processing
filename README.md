@@ -1,5 +1,5 @@
 ## What this is all about
-This code creates **two Kubernetes-ready microservices**written in Spring Boot:
+This code creates **two Kubernetes-ready microservices**written in [Spring Boot](https://spring.io/projects/spring-boot/) `3.2.1`:
 * The `transaction-ingestion-service`: using the RabbitMQ to publish transactions
 * The  `notification-service`: scalable Kubernetes stateful set of multiple replicas consuming the transactions and matching its data with the customer data stored in VMware GemFire. The idea is to spin a replica which is consuming from a dedicated [RabbitMQ queue](https://www.rabbitmq.com/queues.html).
 
