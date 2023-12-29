@@ -49,7 +49,7 @@ From the CLI or the IDE, do:
 ./gradlew :notification-service:bootRun
 ```
 
-## Building the Helm charts
+## Building the Helm charts and deploying the microservices to Kubernetes
 Each microservice has a corresponding `build-and-deploy-k8s.sh` script file.
 You may need to adjust the following variables:
 * `namespace`: the k8s namespace used to deploy the artefacts
