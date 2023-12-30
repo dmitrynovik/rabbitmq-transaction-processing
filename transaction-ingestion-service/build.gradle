@@ -4,14 +4,8 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.4'
 }
 
-repositories {
-	mavenCentral()
-	maven { url 'https://repo.spring.io/milestone' }
-	maven { url 'https://repo.spring.io/snapshot' }
-}
-
 ext {
-	set('SPRING_CLOUD_VERSION', "2023.0.0")
+	set('SPRING_CLOUD_VERSION', "2023.0.1")
 }
 
 dependencyManagement {

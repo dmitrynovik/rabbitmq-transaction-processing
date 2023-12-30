@@ -17,7 +17,6 @@ configurations {
 }
 
 repositories {
-	mavenCentral()
 	maven {
 		if (project.hasProperty('gemfireRepoUsername')) {
 			credentials {
