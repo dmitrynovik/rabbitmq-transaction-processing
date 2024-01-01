@@ -6,8 +6,13 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 public class RabbitMQUtils {
+    
     public static String getQueueName() {
         String hostname = System.getenv("HOSTNAME");
+        return getQueueName(hostname);
+    }
+
+    public static String getQueueName(String hostname) {
         return StringUtils.isBlank(hostname) ? "tx_Queue_0" : hostname;
     }
 
