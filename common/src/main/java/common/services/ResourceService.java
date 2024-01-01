@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ResourceService<T> {
 
-    public Stream<T> toStream(String path, Class classId) throws IOException {
+    public Stream<T> toStream(String path, Class<T> classId) throws IOException {
         InputStream inputStream = getClass().getResourceAsStream(path);
         ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
         JsonParser jsonParser = objectMapper.getFactory().createParser(inputStream);
