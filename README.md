@@ -6,6 +6,11 @@ This code creates **two Kubernetes-ready microservices** written in [Spring Boot
 ## Architecture
 ![Architecture](Docs/architecture.png)
 
+## Configuration
+Some properties (e.g., the RabbitMQ or GemFire connection string and credentials) require configuration.
+* When run locally, the configuration properties are taken from `application-default.properties|yaml` file.
+* When run in Kubernetes and so having the `kubernetes` profile, the Helm deploys [configmaps](https://kubernetes.io/docs/concepts/configuration/configmap/) containing the configuration, see the `k8s/helm/chart[chart-name]/templates/configmap.yaml` file.
+
 ## Prerequisites
 
 ### Create a Kubernetes cluster
