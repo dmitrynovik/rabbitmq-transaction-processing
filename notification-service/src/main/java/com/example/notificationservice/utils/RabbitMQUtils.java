@@ -1,4 +1,4 @@
-package com.example.notificationservice.service.utils;
+package com.example.notificationservice.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

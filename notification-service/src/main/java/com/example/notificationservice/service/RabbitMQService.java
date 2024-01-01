@@ -5,7 +5,7 @@ import com.rabbitmq.client.Channel;
 import common.Configuration.TransactionsExchange;
 import common.services.ResourceService;
 import com.example.notificationservice.domain.Customer;
-import com.example.notificationservice.service.utils.RabbitMQUtils;
+import com.example.notificationservice.utils.RabbitMQUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
