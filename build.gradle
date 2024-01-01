@@ -1,18 +1,21 @@
-plugins {
-    id 'java'
+allprojects {
+    group = 'org.acme.yourGroupGoesHere'
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor 0, "seconds"
+            cacheDynamicVersionsFor 0, "seconds"
+        }
+    }
 }
 
+subprojects {
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/milestone' }
+        maven { url 'https://repo.spring.io/snapshot' }
+    }
 
-repositories {
-    mavenCentral()
-}
-
-
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
-
-test {
-    useJUnitPlatform()
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
 }

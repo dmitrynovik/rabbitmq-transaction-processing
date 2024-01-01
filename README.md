@@ -26,7 +26,7 @@ Follow the [guide](https://docs.vmware.com/en/VMware-RabbitMQ-for-Kubernetes/1/r
 * Create a [GemFire cluster](https://docs.vmware.com/en/VMware-GemFire-for-Kubernetes/2.3/gf-k8s/create-and-delete.html)
 
 ### Install JDK
-Used to build the artefacts from the source code.
+Used to build the artifacts from the source code.
 
 ### Enable the RabbitMQ Consistent Hash Plugin
 The [Consistent Hash Exchange](https://github.com/rabbitmq/rabbitmq-consistent-hash-exchange) is used to distribute workload to multiple queues backed by mutiple CPU cores.
@@ -52,7 +52,7 @@ From the CLI or the IDE, do:
 ## Building the Helm charts and deploying the microservices to Kubernetes
 Each microservice has a corresponding `build-and-deploy-k8s.sh` script file.
 You may need to adjust the following variables:
-* `namespace`: the k8s namespace used to deploy the artefacts
+* `namespace`: the k8s namespace used to deploy the artifacts
 * `registry`: your local or private [Docker registry](https://docs.docker.com/registry/) URL.
 
 ## Appendix
