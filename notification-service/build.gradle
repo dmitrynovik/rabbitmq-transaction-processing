@@ -19,11 +19,15 @@ configurations {
 repositories {
 	mavenCentral()
 	maven {
-        credentials {
-            username "$gemfireRepoUsername"
-            password "$gemfireRepoPassword"
-        }
-        url = uri("https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire")
+		if (project.hasProperty('gemfireRepoUsername')) {
+			credentials {
+				username "$gemfireRepoUsername"
+				password "$gemfireRepoPassword"
+			}
+        	url = uri("https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire")
+		} else {
+			throw new Exception("Please set GemFire repo credentials. Refer to: https://gemfire.dev/quickstart/spring/")
+		}
     }
 }
 
