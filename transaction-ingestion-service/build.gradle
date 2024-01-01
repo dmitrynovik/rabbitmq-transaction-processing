@@ -44,3 +44,7 @@ dependencies {
 	testImplementation 'org.springframework.amqp:spring-rabbit-test'
 	testImplementation 'org.springframework.cloud:spring-cloud-stream-test-binder'
 }
+
+test {
+    useJUnitPlatform()
+}
