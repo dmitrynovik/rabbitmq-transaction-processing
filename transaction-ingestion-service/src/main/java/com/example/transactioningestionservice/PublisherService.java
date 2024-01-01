@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.availability.AvailabilityChangeEvent;
 import org.springframework.boot.availability.LivenessState;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.rabbitmq.client.Channel;
@@ -21,22 +21,21 @@ import com.rabbitmq.client.Channel;
 import common.data.AtmTransaction;
 
 @Service
-public class PublisherService implements CommandLineRunner {
+public class PublisherService {
 
   static final String exchangeName = common.Configuration.TransactionsExchange.getName();
   
   private RabbitTemplate rabbitTemplate;
   Logger logger = LoggerFactory.getLogger(PublisherService.class);
   private int throughput;
-  private boolean running;
+  private boolean running = true;
 
-
-  public void run() { running = true;}
+  public void run() { running = true; }
 
   public void stop() { running = false; }
   
   public PublisherService(@Value("${rabbitmq.throughput:1}") int throughput,
-    RabbitTemplate rabbitTemplate) throws IOException, TimeoutException {
+    RabbitTemplate rabbitTemplate) throws IOException, TimeoutException, InterruptedException {
       logger.info("Connecting to the RabbitMQ at: " + rabbitTemplate.getConnectionFactory().getHost());
 
       this.throughput = throughput;
@@ -54,14 +53,13 @@ public class PublisherService implements CommandLineRunner {
       logger.info("Availability changed to: " + event.getState());
   }
 
-  private void declareExchange() throws IOException, TimeoutException {
+  private void declareExchange() throws IOException, TimeoutException, InterruptedException {
     Connection conn = rabbitTemplate.getConnectionFactory().createConnection();
 		Channel ch = conn.createChannel(false);
 
     try {
       // Declare RabbitMQ exchange of type consistent hash to load balance the workload:
       ch.exchangeDeclare(exchangeName, "x-consistent-hash", true, false, null);
-      this.run();
 
     } finally {
       ch.close();
@@ -69,20 +67,8 @@ public class PublisherService implements CommandLineRunner {
     }
   }
 
-  public void run(String... args) throws InterruptedException {
-    Runnable runnable = () -> {
-      try {
-        runImpl();
-      } catch (InterruptedException e) {
-        logger.error("Error executing the runner: %s", e);
-      }
-    };
-    
-    Thread backgroundJob = new Thread(runnable);
-    backgroundJob.start();
-  }
-
-  public void runImpl() throws InterruptedException {
+  @Async
+  public void startPubishing() throws InterruptedException {
     try {
       // pull a batch of transactions (poC: data embedded as a resource, production: Database)
       List<AtmTransaction> atmTransactions = new TransactionService().getAll();
