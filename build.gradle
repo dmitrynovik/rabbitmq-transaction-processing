@@ -14,8 +14,4 @@ subprojects {
         maven { url 'https://repo.spring.io/milestone' }
         maven { url 'https://repo.spring.io/snapshot' }
     }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-    }
 }

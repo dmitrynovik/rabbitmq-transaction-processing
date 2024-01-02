@@ -2,6 +2,8 @@ package common.data;
 
 import java.io.Serializable;
 
+// I would consider using a Java record here
+
 public class AtmTransaction implements Serializable {
     
     public String processId;
