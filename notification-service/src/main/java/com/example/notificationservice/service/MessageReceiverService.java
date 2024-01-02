@@ -17,10 +17,10 @@ public class MessageReceiverService {
   @Autowired
   private LookAsideCachedCustomerService lookAsideCachedCustomerService;
 
-  Logger logger = LoggerFactory.getLogger(MessageReceiverService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiverService.class);
 
   public MessageReceiverService() {
-    logger.info("Creating consumer service");
+    LOGGER.info("Creating consumer service");
   }
 
   public MessageReceiverService(LookAsideCachedCustomerService lookAsideCachedCustomerService) {
@@ -29,11 +29,14 @@ public class MessageReceiverService {
 
   public void receiveMessage(AtmTransaction tx) {
     String account = tx.fromAcct1 + tx.fromAcct2;
-    logger.info("Received transaction <" + tx.processId + "> of " + account);
+    // ONOBC:I would consider moving some of the other logs (across codebase) to debug as well.
+    LOGGER.debug("Received transaction <" + tx.processId + "> of " + account);
     Optional<Customer> customer = lookAsideCachedCustomerService.findById(account);
     if (customer.isEmpty()) {
-      logger.info("Customer " + account + " not found");
+      LOGGER.info("Customer " + account + " not found");
     }
+    // ONOBC: Based on this comment, maybe take it a step further and call a no-op method that is protected visibilty and they
+    // will know exactly where to extend this.
     // TODO (Production): send this data down the Enterprise Message Hub / Persist / Do whatever
   }
 }

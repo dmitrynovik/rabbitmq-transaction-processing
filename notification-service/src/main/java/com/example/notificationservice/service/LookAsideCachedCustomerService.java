@@ -9,14 +9,21 @@ import java.util.Optional;
 
 @Service
 public class LookAsideCachedCustomerService {
-    @Autowired
-    private CustomerService customerService;
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    // ONOBC - everytime field injection is used, a fairy is killed in the forest ;)
+    //@Autowired
+    private final CustomerService customerService;
+
+    //@Autowired
+    private final CustomerRepository customerRepository;
+
+    public LookAsideCachedCustomerService(CustomerService customerService, CustomerRepository customerRepository) {
+        this.customerService = customerService;
+        this.customerRepository = customerRepository;
+    }
 
     public Optional<Customer> findById(String id) {
-        Customer cached = customerService.cacheGet(id);
-        return cached == null ? customerRepository.findById(id) : Optional.of(cached);
+        return Optional.ofNullable(customerService.cacheGet(id))
+                .or(() -> customerRepository.findById(id));
     }
 }

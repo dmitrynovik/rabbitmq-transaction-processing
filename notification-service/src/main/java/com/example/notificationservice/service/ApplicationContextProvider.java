@@ -8,6 +8,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+// ONOBC: I would highly encourage you to remove this. If you need access to any of the env props you are logging below
+// just inject a KubernetesClientProperties to the point you need it. Also, any bean can have the ApplicationContext injected
+// as a parameter (It is always available).
+
 @Component
 public class ApplicationContextProvider implements ApplicationContextAware {
     private static ApplicationContext applicationContext;

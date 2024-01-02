@@ -14,8 +14,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService {
 
-  private CustomerRepository customerRepository;
-  Logger logger = LoggerFactory.getLogger(CustomerService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(CustomerService.class);
+
+  private final CustomerRepository customerRepository;
 
   public CustomerService(CustomerRepository customerRepository) {
     this.customerRepository = customerRepository;
@@ -28,10 +29,11 @@ public class CustomerService {
 
   @CachePut(cacheNames = "Customers", key = "#result.accountNumber")
   public Customer cachePut(Customer customer) {
-    logger.debug("Caching customer: " + customer.accountNumber);
+    LOGGER.debug("Caching customer: " + customer.accountNumber);
     return customer;
   }
 
+  // ONOBC: Is this just NYI?
   public Customer cacheGet(String id) {
     return null;
   }

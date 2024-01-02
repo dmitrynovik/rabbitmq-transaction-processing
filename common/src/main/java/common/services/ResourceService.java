@@ -12,14 +12,14 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-// Naming this "*Service" in a Spring Boot based application may be a bit confusing (wrt `@Service').
+// ONOBC: Naming this "*Service" in a Spring Boot based application may be a bit confusing (wrt `@Service').
 // It seems more like a ResourceUtil or a JsonResourceStreamUtil or something like that.
 
 public class ResourceService<T> {
 
-    // ONE: If this method is called frequently we may want to consider caching the object mapper
+    // ONOBC: If this method is called frequently we may want to consider caching the object mapper
 
-    // TWO: This needs a few unit tests
+    // ONOBC: This needs a few unit tests
 
     public Stream<T> toStream(String path, Class<T> classId) throws IOException {
 
