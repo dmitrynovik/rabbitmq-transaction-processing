@@ -48,7 +48,7 @@ public class RabbitMQService {
     // Load all customers into cache before consuming messages:
     CustomerUtils
       .getAll()
-      .forEach(customer -> customerService.cachePut(customer));
+      .forEach(customerService::cachePut);
   }
 
   @Bean
