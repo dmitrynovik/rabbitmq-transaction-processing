@@ -3,8 +3,7 @@ package com.example.notificationservice.service;
 import com.rabbitmq.client.Channel;
 
 import common.CommonConfiguration.TransactionsExchange;
-import common.services.ResourceUtils;
-import com.example.notificationservice.domain.Customer;
+import com.example.notificationservice.utils.CustomerUtils;
 import com.example.notificationservice.utils.RabbitMQUtils;
 
 import org.slf4j.Logger;
@@ -50,8 +49,8 @@ public class RabbitMQService {
   @EventListener(ApplicationReadyEvent.class)
   public void cacheCustomers() throws IOException {
     // Load all customers into cache before consuming messages:
-    ResourceUtils
-      .toStream("/data/sample_contact_info.json", Customer.class)
+    CustomerUtils
+      .getAll()
       .forEach(customer -> customerService.cachePut(customer));
   }
 
@@ -68,9 +67,6 @@ public class RabbitMQService {
     return container;
   }
 
-  // @EventListener(ApplicationReadyEvent.class)
-  // void onApplicationReady() {
-  // }
 
   private void createAndBindQueues() throws IOException, TimeoutException {
     Connection conn = rabbitTemplate.getConnectionFactory().createConnection();

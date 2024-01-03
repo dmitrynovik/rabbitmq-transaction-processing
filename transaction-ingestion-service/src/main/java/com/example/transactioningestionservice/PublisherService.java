@@ -71,7 +71,7 @@ public class PublisherService {
   public void startPubishing() throws InterruptedException {
     try {
       // pull a batch of transactions (poC: data embedded as a resource, production: Database)
-      List<AtmTransaction> atmTransactions = new TransactionService().getAll();
+      List<AtmTransaction> atmTransactions = new TransactionUtils().getAll();
 
       int i = 0;
       while (running) {

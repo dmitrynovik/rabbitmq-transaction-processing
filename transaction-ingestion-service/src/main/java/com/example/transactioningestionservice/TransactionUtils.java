@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import common.data.AtmTransaction;
-import common.services.ResourceUtils;
+import common.utils.ResourceUtils;
 
-public class TransactionService {
-    public List<AtmTransaction> getAll() throws IOException {
+public class TransactionUtils {
+    public static List<AtmTransaction> getAll() throws IOException {
         Stream<AtmTransaction> stream = ResourceUtils.toStream("/data/sample_txns.json", AtmTransaction.class);
         return stream.toList();
     }

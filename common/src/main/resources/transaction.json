@@ -1,0 +1,30 @@
+[
+    {
+        "processId": "ATMS23103112342447197",
+        "termFiId": "C001",
+        "termId1": "BANK",
+        "termId2": "015142009",
+        "cardFiId": "C001",
+        "cardLn": "P02",
+        "card1": "6074000",
+        "card2": "001230002",
+        "transCode": "10",
+        "messageType": "0210",
+        "respCode": "000",
+        "fromAcct1": "000000764",
+        "fromAcct2": "94560049",
+        "seqNumber1": "531",
+        "seqNumber2": "2",
+        "amount1": "180000",
+        "amount2": "0",
+        "postDate": "10\/31\/2023",
+        "tranDate": "10\/31\/2023",
+        "tranTime": "12342020",
+        "termCountry": "IN",
+        "authCurrencyCode": "000",
+        "acqInstitutionId": "-",
+        "processFlag": "Y",
+        "threadNum": 41,
+        "txnType": "SUCCESS_FIN"
+       }
+]
