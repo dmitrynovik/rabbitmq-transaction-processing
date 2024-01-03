@@ -50,7 +50,7 @@ public class RabbitMQService {
   @EventListener(ApplicationReadyEvent.class)
   public void cacheCustomers() throws IOException {
     // Load all customers into cache before consuming messages:
-    new ResourceUtils<Customer>()
+    ResourceUtils
       .toStream("/data/sample_contact_info.json", Customer.class)
       .forEach(customer -> customerService.cachePut(customer));
   }
