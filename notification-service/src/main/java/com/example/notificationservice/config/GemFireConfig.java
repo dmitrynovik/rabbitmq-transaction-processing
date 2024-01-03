@@ -1,7 +1,6 @@
 package com.example.notificationservice.config;
 
 import com.example.notificationservice.repository.CustomerRepository;
-import io.micrometer.common.util.StringUtils;
 import org.apache.geode.cache.RegionShortcut;
 import org.apache.geode.cache.client.ClientRegionShortcut;
 import org.apache.geode.cache.client.SocketFactory;
@@ -16,6 +15,7 @@ import org.springframework.data.gemfire.config.annotation.ClientCacheApplication
 import org.springframework.data.gemfire.config.annotation.EnableCachingDefinedRegions;
 import org.springframework.data.gemfire.config.annotation.EnablePdx;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
+import org.springframework.util.StringUtils;
 
 @Configuration
 @ClientCacheApplication
@@ -32,7 +32,7 @@ public class GemFireConfig {
 
   @Bean
   SocketFactory myProxySocketFactory(@Value("${cache.host}") String host, @Value("${cache.port}") int port) {
-    if (port > 0 && !StringUtils.isBlank(host)) {
+    if (port > 0 && StringUtils.hasText(host)) {
       logger.info("Connecting to GemFire load balancer proxy at " + host + ":" + port);
       return ProxySocketFactories.sni(host, port);
     }
