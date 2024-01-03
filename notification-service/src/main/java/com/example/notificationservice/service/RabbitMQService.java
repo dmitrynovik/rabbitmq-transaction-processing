@@ -2,7 +2,7 @@ package com.example.notificationservice.service;
 
 import com.rabbitmq.client.Channel;
 
-import common.Configuration.TransactionsExchange;
+import common.CommonConfiguration.TransactionsExchange;
 import common.services.ResourceService;
 import com.example.notificationservice.domain.Customer;
 import com.example.notificationservice.utils.RabbitMQUtils;

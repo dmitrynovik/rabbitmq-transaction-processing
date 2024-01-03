@@ -23,7 +23,7 @@ import common.data.AtmTransaction;
 @Service
 public class PublisherService {
 
-  static final String exchangeName = common.Configuration.TransactionsExchange.getName();
+  static final String exchangeName = common.CommonConfiguration.TransactionsExchange.getName();
   
   private RabbitTemplate rabbitTemplate;
   Logger logger = LoggerFactory.getLogger(PublisherService.class);
