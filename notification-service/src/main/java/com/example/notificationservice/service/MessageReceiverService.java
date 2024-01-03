@@ -28,8 +28,8 @@ public class MessageReceiverService {
   }
 
   public void receiveMessage(AtmTransaction tx) {
-    String account = tx.fromAcct1 + tx.fromAcct2;
-    logger.info("Received transaction <" + tx.processId + "> of " + account);
+    String account = tx.fromAcct1() + tx.fromAcct2();
+    logger.info("Received transaction <" + tx.processId() + "> of " + account);
     Optional<Customer> customer = lookAsideCachedCustomerService.findById(account);
     if (customer.isEmpty()) {
       logger.info("Customer " + account + " not found");

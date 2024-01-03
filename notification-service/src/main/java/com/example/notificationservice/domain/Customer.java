@@ -4,16 +4,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Customer {
+public record Customer (
 
-    public String isdCode;
+    String isdCode,
 
-    public String mobileNumber;
+    String mobileNumber,
 
-    public String langCode;
+    String langCode,
 
-    public String emailId;
+    String emailId,
 
     @Id
-    public String accountNumber;
-}
+    String accountNumber
+) { }

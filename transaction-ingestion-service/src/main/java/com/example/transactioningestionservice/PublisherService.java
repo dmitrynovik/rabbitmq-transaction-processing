@@ -70,9 +70,9 @@ public class PublisherService {
   @Async
   public void startPubishing() throws InterruptedException {
     try {
+      new TransactionUtils();
       // pull a batch of transactions (poC: data embedded as a resource, production: Database)
-      List<AtmTransaction> atmTransactions = new TransactionUtils().getAll();
-
+      List<AtmTransaction> atmTransactions = TransactionUtils.getAll();
       int i = 0;
       while (running) {
         //
@@ -80,8 +80,8 @@ public class PublisherService {
         // 
         for (int j = i; j < i + throughput; ++j) {
           AtmTransaction atmTransaction = atmTransactions.get(j % atmTransactions.size());
-          String routingKey = atmTransaction.processId;
-          logger.info("(" + j + ") Sending transaction: " + atmTransaction.processId + ", routingKey = " + routingKey);
+          String routingKey = atmTransaction.processId();
+          logger.info("(" + j + ") Sending transaction: " + routingKey + ", routingKey = " + routingKey);
 
           this.rabbitTemplate.convertAndSend(exchangeName, 
               routingKey,

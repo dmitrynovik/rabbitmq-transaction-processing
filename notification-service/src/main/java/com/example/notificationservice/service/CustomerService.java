@@ -28,7 +28,7 @@ public class CustomerService {
 
   @CachePut(cacheNames = "Customers", key = "#result.accountNumber")
   public Customer cachePut(Customer customer) {
-    logger.debug("Caching customer: " + customer.accountNumber);
+    logger.debug("Caching customer: " + customer.accountNumber());
     return customer;
   }
 

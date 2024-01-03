@@ -2,57 +2,56 @@ package common.data;
 
 import java.io.Serializable;
 
-public class AtmTransaction implements Serializable {
+public record AtmTransaction (
     
-    public String processId;
+     String processId,
 
-    public String termFiId;
+     String termFiId,
 
-    public String termId1;
+     String termId1,
 
-    public String termId2;
+     String termId2,
 
-    public String cardFiId;
+     String cardFiId,
 
-    public String cardLn;
+     String cardLn,
 
-    public String card1;
+     String card1,
 
-    public String card2;
+     String card2,
 
-    public String transCode;
+     String transCode,
 
-    public String messageType;
+     String messageType,
 
-    public String respCode;
+     String respCode,
 
-    public String fromAcct1;
+     String fromAcct1,
 
-    public String fromAcct2;
+     String fromAcct2,
 
-    public String seqNumber1;
+     String seqNumber1,
 
-    public String seqNumber2;
+     String seqNumber2,
 
-    public int amount1;
+     int amount1,
 
-    public int amount2;
+     int amount2,
 
-    public String postDate;
+     String postDate,
 
-    public String tranDate;
+     String tranDate,
 
-    public int tranTime;
+     int tranTime,
 
-    public String termCountry;
+     String termCountry,
 
-    public int authCurrencyCode;
+     int authCurrencyCode,
 
-    public String acqInstitutionId;
+     String acqInstitutionId,
 
-    public String processFlag;
+     String processFlag,
 
-    public String txnType;
+     String txnType,
 
-    public String threadNum;
-}
+     String threadNum) implements Serializable { }
