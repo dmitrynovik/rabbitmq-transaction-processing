@@ -6,7 +6,6 @@ import common.data.AtmTransaction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,14 +13,9 @@ import java.util.Optional;
 @Service
 public class MessageReceiverService {
 
-  @Autowired
   private LookAsideCachedCustomerService lookAsideCachedCustomerService;
 
   Logger logger = LoggerFactory.getLogger(MessageReceiverService.class);
-
-  public MessageReceiverService() {
-    logger.info("Creating consumer service");
-  }
 
   public MessageReceiverService(LookAsideCachedCustomerService lookAsideCachedCustomerService) {
     this.lookAsideCachedCustomerService = lookAsideCachedCustomerService;

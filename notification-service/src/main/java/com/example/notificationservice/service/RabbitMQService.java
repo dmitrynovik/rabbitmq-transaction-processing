@@ -13,7 +13,6 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
@@ -30,14 +29,12 @@ public class RabbitMQService {
 
   private RabbitTemplate rabbitTemplate;
   private SimpleMessageListenerContainer container;
-
   private Logger logger = LoggerFactory.getLogger(RabbitMQService.class);
-
-  @Autowired
   private CustomerService customerService;
 
-  public RabbitMQService(RabbitTemplate rabbitTemplate) throws IOException, TimeoutException {
+  public RabbitMQService(RabbitTemplate rabbitTemplate, CustomerService customerService) throws IOException, TimeoutException {
     this.rabbitTemplate = rabbitTemplate;
+    this.customerService = customerService;
     createAndBindQueues();
   }
 
