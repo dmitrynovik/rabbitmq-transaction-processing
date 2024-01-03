@@ -25,7 +25,7 @@ import java.util.concurrent.TimeoutException;
 @Service
 public class RabbitMQService {
 
-  private static final Map<String, Object> quorumQueueArgs = Map.of("x-queue-type", "quorum");
+  private static final Map<String, Object> QUORUM_QUEUE_ARGS = Map.of("x-queue-type", "quorum");
 
   private RabbitTemplate rabbitTemplate;
   private SimpleMessageListenerContainer container;
@@ -75,7 +75,7 @@ public class RabbitMQService {
       String routingKey = RabbitMQUtils.getRoutingKey();
  
       logger.info("Declaring RabbitMQ queue: " + queueName + " and binding using routing key: " + routingKey);
-      ch.queueDeclare(queueName, true, false, false, quorumQueueArgs);
+      ch.queueDeclare(queueName, true, false, false, QUORUM_QUEUE_ARGS);
       ch.queueBind(queueName, TransactionsExchange.getName(), routingKey);
 
     } finally {

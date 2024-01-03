@@ -18,8 +18,7 @@ public class LookAsideCachedCustomerService {
     }
 
     public Optional<Customer> findById(String id) {
-        return Optional
-                .ofNullable(customerService.cacheGet(id))
+        return customerService.cacheFind(id)
                 .or(() -> customerRepository.findById(id));
     }
 }
