@@ -3,7 +3,7 @@ package com.example.notificationservice.service;
 import com.rabbitmq.client.Channel;
 
 import common.CommonConfiguration.TransactionsExchange;
-import common.services.ResourceService;
+import common.services.ResourceUtils;
 import com.example.notificationservice.domain.Customer;
 import com.example.notificationservice.utils.RabbitMQUtils;
 
@@ -50,7 +50,7 @@ public class RabbitMQService {
   @EventListener(ApplicationReadyEvent.class)
   public void cacheCustomers() throws IOException {
     // Load all customers into cache before consuming messages:
-    new ResourceService<Customer>()
+    new ResourceUtils<Customer>()
       .toStream("/data/sample_contact_info.json", Customer.class)
       .forEach(customer -> customerService.cachePut(customer));
   }

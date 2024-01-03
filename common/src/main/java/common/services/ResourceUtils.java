@@ -12,7 +12,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ResourceService<T> {
+public class ResourceUtils<T> {
 
     public Stream<T> toStream(String path, Class<T> classId) throws IOException {
         InputStream inputStream = getClass().getResourceAsStream(path);
@@ -20,7 +20,7 @@ public class ResourceService<T> {
         JsonParser jsonParser = objectMapper.getFactory().createParser(inputStream);
 
         if (jsonParser.nextToken() != JsonToken.START_ARRAY) {
-            throw new IllegalStateException("Not an array");
+            throw new IllegalStateException("The file '%s' did not contain a valid JSON array".formatted(path));
         }
         
         jsonParser.nextToken(); // advance jsonParser to start of first object
