@@ -32,7 +32,7 @@ public class MessageReceiverService {
     logger.info("Received transaction <" + tx.processId() + "> of " + account);
     Optional<Customer> customer = lookAsideCachedCustomerService.findById(account);
     if (customer.isEmpty()) {
-      logger.info("Customer " + account + " not found");
+      logger.debug("Customer " + account + " not found");
     }
     // TODO (Production): send this data down the Enterprise Message Hub / Persist / Do whatever
   }

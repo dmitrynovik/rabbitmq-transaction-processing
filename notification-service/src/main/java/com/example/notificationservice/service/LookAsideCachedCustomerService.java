@@ -16,7 +16,8 @@ public class LookAsideCachedCustomerService {
     private CustomerRepository customerRepository;
 
     public Optional<Customer> findById(String id) {
-        Customer cached = customerService.cacheGet(id);
-        return cached == null ? customerRepository.findById(id) : Optional.of(cached);
+        return Optional
+                .ofNullable(customerService.cacheGet(id))
+                .or(() -> customerRepository.findById(id));
     }
 }
