@@ -31,8 +31,4 @@ public class CustomerService {
     logger.debug("Caching customer: " + customer.accountNumber());
     return customer;
   }
-
-  public Customer cacheGet(String id) {
-    return null;
-  }
 }
