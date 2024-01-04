@@ -17,7 +17,7 @@ import org.springframework.data.gemfire.config.annotation.EnablePdx;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 import org.springframework.util.StringUtils;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ClientCacheApplication
 @EnableGemfireCaching
 @EnableGemfireRepositories(basePackageClasses = CustomerRepository.class)
