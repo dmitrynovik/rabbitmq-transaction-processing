@@ -36,7 +36,7 @@ public class PublisherService {
   
   public PublisherService(@Value("${rabbitmq.throughput:1}") int throughput,
     RabbitTemplate rabbitTemplate) throws IOException, TimeoutException, InterruptedException {
-      logger.info("Connecting to the RabbitMQ at: " + rabbitTemplate.getConnectionFactory().getHost());
+      logger.info("Connecting to the RabbitMQ at: %s", rabbitTemplate.getConnectionFactory().getHost());
 
       this.throughput = throughput;
       this.rabbitTemplate = rabbitTemplate;
@@ -50,7 +50,7 @@ public class PublisherService {
 
   @EventListener
   public void onEvent(AvailabilityChangeEvent<LivenessState> event) {
-      logger.info("Availability changed to: " + event.getState());
+      logger.info("Availability changed to: %s", event.getState());
   }
 
   private void declareExchange() throws IOException, TimeoutException, InterruptedException {
@@ -81,7 +81,7 @@ public class PublisherService {
         for (int j = i; j < i + throughput; ++j) {
           AtmTransaction atmTransaction = atmTransactions.get(j % atmTransactions.size());
           String routingKey = atmTransaction.processId();
-          logger.info("(" + j + ") Sending transaction: " + routingKey + ", routingKey = " + routingKey);
+          logger.debug("{} Sending transaction: {}, routingKey: {}", j, routingKey, routingKey);
 
           this.rabbitTemplate.convertAndSend(exchangeName, 
               routingKey,

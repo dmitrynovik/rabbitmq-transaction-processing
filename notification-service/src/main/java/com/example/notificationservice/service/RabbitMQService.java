@@ -70,11 +70,11 @@ public class RabbitMQService {
     Channel ch = conn.createChannel(false);
 
     try {
-      logger.info("RabbitMQ shall connect to: " + rabbitTemplate.getConnectionFactory().getHost());
+      logger.info("RabbitMQ shall connect to: {}", rabbitTemplate.getConnectionFactory().getHost());
       String queueName = RabbitMQUtils.getQueueName();
       String routingKey = RabbitMQUtils.getRoutingKey();
  
-      logger.info("Declaring RabbitMQ queue: " + queueName + " and binding using routing key: " + routingKey);
+      logger.info("Declaring RabbitMQ queue {} bound with routing key: {}", queueName, routingKey);
       ch.queueDeclare(queueName, true, false, false, QUORUM_QUEUE_ARGS);
       ch.queueBind(queueName, TransactionsExchange.getName(), routingKey);
 

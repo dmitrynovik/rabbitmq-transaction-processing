@@ -23,10 +23,10 @@ public class MessageReceiverService {
 
   public void receiveMessage(AtmTransaction tx) {
     String account = tx.fromAcct1() + tx.fromAcct2();
-    logger.info("Received transaction <" + tx.processId() + "> of " + account);
+    logger.info("Received transaction {} of {}", tx.processId(), account);
     Optional<Customer> customer = lookAsideCachedCustomerService.findById(account);
     if (customer.isEmpty()) {
-      logger.debug("Customer " + account + " not found");
+      logger.debug("Customer {} not in cache", account);
     }
     // TODO (Production): send this data down the Enterprise Message Hub / Persist / Do whatever
   }

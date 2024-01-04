@@ -21,14 +21,14 @@ public class CustomerService {
     this.customerRepository = customerRepository;
   }
 
-  @Cacheable(cacheNames = "Customers",key = "#result.accountNumber")
+  //@Cacheable(cacheNames = "Customers",key = "#result.accountNumber")
   public Optional<Customer> cacheFind(String accountNumber){
     return customerRepository.findById(accountNumber);
   }
 
   @CachePut(cacheNames = "Customers", key = "#result.accountNumber")
   public Customer cachePut(Customer customer) {
-    logger.debug("Caching customer: " + customer.accountNumber());
+    logger.debug("Caching customer: {}", customer.accountNumber());
     return customer;
   }
 }

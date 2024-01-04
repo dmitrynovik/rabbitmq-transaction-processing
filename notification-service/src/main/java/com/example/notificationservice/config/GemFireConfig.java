@@ -33,7 +33,7 @@ public class GemFireConfig {
   @Bean
   SocketFactory myProxySocketFactory(@Value("${cache.host}") String host, @Value("${cache.port}") int port) {
     if (port > 0 && StringUtils.hasText(host)) {
-      logger.info("Connecting to GemFire load balancer proxy at " + host + ":" + port);
+      logger.info("Connecting to GemFire load balancer proxy at {}:{}", host, port);
       return ProxySocketFactories.sni(host, port);
     }
     return SocketFactory.DEFAULT;
