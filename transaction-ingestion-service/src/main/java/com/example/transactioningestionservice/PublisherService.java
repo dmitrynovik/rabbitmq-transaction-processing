@@ -16,6 +16,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.example.transactioningestionservice.config.RabbitMQConfig;
 import com.rabbitmq.client.Channel;
 
 import common.data.AtmTransaction;
@@ -35,10 +36,11 @@ public class PublisherService {
   public void stop() { running = false; }
   
   public PublisherService(@Value("${rabbitmq.throughput:1}") int throughput,
-    RabbitTemplate rabbitTemplate) throws IOException, TimeoutException, InterruptedException {
+    RabbitTemplate rabbitTemplate, RabbitMQConfig rabbitMQConfig) throws IOException, TimeoutException, InterruptedException {
       logger.info("Connecting to the RabbitMQ at: %s", rabbitTemplate.getConnectionFactory().getHost());
 
       this.throughput = throughput;
+      rabbitTemplate.setMessageConverter(rabbitMQConfig.jsonMessageConverter());
       this.rabbitTemplate = rabbitTemplate;
       declareExchange();
   }

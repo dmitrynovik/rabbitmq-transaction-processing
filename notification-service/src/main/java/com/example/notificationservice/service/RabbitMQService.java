@@ -40,11 +40,14 @@ public class RabbitMQService {
 
   @Bean
   MessageListenerAdapter listenerAdapter(MessageReceiverService receiver) {
-    return new MessageListenerAdapter(receiver, "receiveMessage");
+    MessageListenerAdapter adapter = new MessageListenerAdapter(receiver, this.rabbitTemplate.getMessageConverter());
+    adapter.setDefaultListenerMethod("receiveMessage");
+    return adapter;
   }
 
   @EventListener(ApplicationReadyEvent.class)
   public void cacheCustomers() throws IOException {
+    if (customerService == null) logger.error("NULL CUSTOMERSVC");
     // Load all customers into cache before consuming messages:
     CustomerUtils
       .getAll()
