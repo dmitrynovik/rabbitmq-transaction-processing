@@ -19,6 +19,7 @@ public class LookAsideCachedCustomerService {
 
     public Optional<Customer> findById(String id) {
         return customerService.cacheFind(id)
+                // TODO: cache put here 
                 .or(() -> customerRepository.findById(id));
     }
 }
