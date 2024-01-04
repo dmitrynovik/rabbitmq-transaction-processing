@@ -34,6 +34,7 @@ public class RabbitMQService {
 
   public RabbitMQService(RabbitTemplate rabbitTemplate, CustomerService customerService) throws IOException, TimeoutException {
     this.rabbitTemplate = rabbitTemplate;
+    this.customerService = customerService;
     createAndBindQueues();
   }
 
@@ -46,6 +47,7 @@ public class RabbitMQService {
 
   @EventListener(ApplicationReadyEvent.class)
   public void cacheCustomers() throws IOException {
+    if (customerService == null) logger.error("NULL CUSTOMERSVC");
     // Load all customers into cache before consuming messages:
     CustomerUtils
       .getAll()
