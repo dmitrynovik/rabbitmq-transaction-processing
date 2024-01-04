@@ -34,13 +34,14 @@ public class RabbitMQService {
 
   public RabbitMQService(RabbitTemplate rabbitTemplate, CustomerService customerService) throws IOException, TimeoutException {
     this.rabbitTemplate = rabbitTemplate;
-    this.customerService = customerService;
     createAndBindQueues();
   }
 
   @Bean
   MessageListenerAdapter listenerAdapter(MessageReceiverService receiver) {
-    return new MessageListenerAdapter(receiver, "receiveMessage");
+    MessageListenerAdapter adapter = new MessageListenerAdapter(receiver, this.rabbitTemplate.getMessageConverter());
+    adapter.setDefaultListenerMethod("receiveMessage");
+    return adapter;
   }
 
   @EventListener(ApplicationReadyEvent.class)
