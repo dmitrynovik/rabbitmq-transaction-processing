@@ -50,6 +50,19 @@ From the CLI or the IDE, do:
 ./gradlew :transaction-ingestion-service:bootRun
 ```
 #### Notification Service
+##### Obtain Certificates
+First, copy the GemFire certifcates from Kubernetes to the `certs` folder underneath the `notification-service` as described in the [Obtain Certificates](https://docs.vmware.com/en/VMware-GemFire-for-Kubernetes/2.3/gf-k8s/off_platform.html) section.
+
+For example, if the k8s namespace is `tanzu-gemfire` and the gemfire cluster is named `my-gemfire-cluster`, it will be:
+```
+cd ./notification-service
+mkdir certs
+
+kubectl -n tanzu-gemfire get secret my-gemfire-cluster-cert -o=jsonpath='{.data.password}' | base64 --decode > ./certs/password
+kubectl -n tanzu-gemfire get secret my-gemfire-cluster-cert -o=jsonpath='{.data.keystore\.p12}' | base64 --decode > ./certs/keystore.p12
+kubectl -n tanzu-gemfire get secret my-gemfire-cluster-cert -o=jsonpath='{.data.truststore\.p12}' | base64 --decode > ./certs/truststore.p12
+```
+##### Run
 ```
 ./gradlew :notification-service:bootRun
 ```
@@ -59,6 +72,7 @@ Each microservice has a corresponding `build-and-deploy-k8s.sh` script file.
 You may need to adjust the following variables:
 * `namespace`: the k8s namespace used to deploy the artefacts
 * `registry`: your local or private [Docker registry](https://docs.docker.com/registry/) URL.
+You also need to edit the `k8s/helm/chart/[service-name]/templates/configmap.yaml` file to have correct connection strings and certificates (see the section above under `Running Services Locally`)
 
 ## Appendix
 ### Connecting to GemFire on K8s
