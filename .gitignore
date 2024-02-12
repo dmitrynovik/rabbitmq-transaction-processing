@@ -41,3 +41,6 @@ out/
 
 ### Dependenices list
 deps.txt
+
+### Certificates folder (specific per GemFire cluster):
+/certs
