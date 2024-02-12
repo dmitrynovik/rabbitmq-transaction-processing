@@ -17,9 +17,9 @@ data:
                     name: Customers
                 management:
                     http:
-                        host: gemfire-cluster-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local
+                        host: gemfire-cluster-1-locator.tanzu-gemfire.svc.cluster.local
                 pool:
-                    locators: gemfire-cluster-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local[10334]
+                    locators: gemfire-cluster-1-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local[10334],gemfire-cluster-1-locator-1.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local[10334]
                     #socket-factory-bean-name: myProxySocketFactory
                 security:
                     ssl:
