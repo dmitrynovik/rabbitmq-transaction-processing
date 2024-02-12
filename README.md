@@ -75,7 +75,7 @@ You may need to adjust the following variables:
 You also need to edit the `k8s/helm/chart/[service-name]/templates/configmap.yaml` file to have correct connection strings and certificates (see the section above under `Running Services Locally`)
 
 ## Appendix
-### Connecting to GemFire on K8s
+### 1. Connecting to GemFire on K8s
 ```
 # connect to a locator pod:
 kubectl -n YOUR-GEMFIRE-NAMESPACE exec -it YOUR-GEMFIRE-CLUSTER-locator-0 -- gfsh
@@ -91,6 +91,18 @@ kubectl -n tanzu-gemfire exec -it gemfire-cluster-1-locator-0 -- gfsh
 
 # type in gfsh:
 connect --locator=gemfire-cluster-1-locator-0.gemfire-cluster-1-locator.tanzu-gemfire.svc.cluster.local[10334] --security-properties-file=/security/gfsecurity.properties
+```
+
+### 2. Creating Customers region
+**This is a necessary part to make this code run**
+
+Once connected with gfsh, create a region with:
+```
+create region --name=Customers --type=REPLICATE
+```
+Or, if you require persisted data which survives the GemFire restart:
+```
+create region --name=Customers --type=REPLICATE_PERSISTED
 ```
 
 ### Running microservices in Docker
