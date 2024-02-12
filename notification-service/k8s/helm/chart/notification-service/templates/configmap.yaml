@@ -24,9 +24,9 @@ data:
                 security:
                     ssl:
                         keystore: ./certs/keystore.p12
-                        keystore.password: NnUmHdUvLE0ds7EtWDoR6dB-uNGOCWspTGnmphwXRlQ=
+                        keystore.password: mo_CNyEBoRHRXrHJeJly3djfjfMq3CY8QmxnA8aK1Mw=
                         truststore: ./certs/truststore.p12
-                        truststore.password: NnUmHdUvLE0ds7EtWDoR6dB-uNGOCWspTGnmphwXRlQ=
+                        truststore.password: mo_CNyEBoRHRXrHJeJly3djfjfMq3CY8QmxnA8aK1Mw=
         rabbitmq:
             host: tanzu-rabbitmq.rabbitmq-system.svc.cluster.local
             password: admin
