@@ -53,14 +53,14 @@ From the CLI or the IDE, do:
 ##### Obtain Certificates
 First, copy the GemFire certifcates from Kubernetes to the `certs` folder underneath the `notification-service` as described in the [Obtain Certificates](https://docs.vmware.com/en/VMware-GemFire-for-Kubernetes/2.3/gf-k8s/off_platform.html) section.
 
-For example, if the k8s namespace is `tanzu-gemfire` and the gemfire cluster is named `my-gemfire-cluster`, it will be:
+For example, if the k8s namespace is `tanzu-gemfire` and the gemfire cluster is named `gemfire-cluster-1`, it will be:
 ```
 cd ./notification-service
 mkdir certs
 
-kubectl -n tanzu-gemfire get secret my-gemfire-cluster-cert -o=jsonpath='{.data.password}' | base64 --decode > ./certs/password
-kubectl -n tanzu-gemfire get secret my-gemfire-cluster-cert -o=jsonpath='{.data.keystore\.p12}' | base64 --decode > ./certs/keystore.p12
-kubectl -n tanzu-gemfire get secret my-gemfire-cluster-cert -o=jsonpath='{.data.truststore\.p12}' | base64 --decode > ./certs/truststore.p12
+kubectl -n tanzu-gemfire get secret gemfire-cluster-1-cert -o=jsonpath='{.data.password}' | base64 --decode > ./certs/password
+kubectl -n tanzu-gemfire get secret gemfire-cluster-1-cert -o=jsonpath='{.data.keystore\.p12}' | base64 --decode > ./certs/keystore.p12
+kubectl -n tanzu-gemfire get secret gemfire-cluster-1-cert -o=jsonpath='{.data.truststore\.p12}' | base64 --decode > ./certs/truststore.p12
 ```
 ##### Run
 ```
@@ -84,13 +84,13 @@ kubectl -n YOUR-GEMFIRE-NAMESPACE exec -it YOUR-GEMFIRE-CLUSTER-locator-0 -- gfs
 connect --locator=YOUR-GEMFIRE-CLUSTER-locator-0.YOUR-GEMFIRE-CLUSTER-locator.YOUR-GEMFIRE-NAMESPACE.svc.cluster.local[10334] --security-properties-file=/security/gfsecurity.properties
 
 ```
-For example, if the k8s namespace is `tanzu-gemfire`, and the gemfire cluster is named `gemfire-cluster`, it is:
+For example, if the k8s namespace is `tanzu-gemfire`, and the gemfire cluster is named `gemfire-cluster-1`, it is:
 ```
 # connect to a locator pod:
-kubectl -n tanzu-gemfire exec -it gemfire-cluster-locator-0 -- gfsh
+kubectl -n tanzu-gemfire exec -it gemfire-cluster-1-locator-0 -- gfsh
 
 # type in gfsh:
-connect --locator=gemfire-cluster-locator-0.gemfire-cluster-locator.tanzu-gemfire.svc.cluster.local[10334] --security-properties-file=/security/gfsecurity.properties
+connect --locator=gemfire-cluster-1-locator-0.gemfire-cluster-1-locator.tanzu-gemfire.svc.cluster.local[10334] --security-properties-file=/security/gfsecurity.properties
 ```
 
 ### Running microservices in Docker
