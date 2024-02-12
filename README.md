@@ -102,7 +102,7 @@ create region --name=Customers --type=REPLICATE
 ```
 Or, if you require persisted data which survives the GemFire restart:
 ```
-create region --name=Customers --type=REPLICATE_PERSISTED
+create region --name=Customers --type=REPLICATE_PERSISTENT
 ```
 
 ### Running microservices in Docker
